@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Project2 {
+public class ParseGEDCOMFile {
 	public static String [] level0Tag =  {"INDI", "FAM", "HEAD", "TRLR", "NOTE"};
 	public static String [] level1Tag = {"NAME", "SEX", "BIRT", "DEAT", "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL", "DIV"};
 	public static String [] level2Tag = {"DATE"};
