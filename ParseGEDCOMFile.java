@@ -37,14 +37,20 @@ public class Project2 {
 					tag = splitParts[1];
 					argument = splitParts[2];
 					if (level == 0) {
-						if (splitParts[1].length() < 4) {
+						if (level == 0) {
+						if (splitParts[1].length() > 4) {
 							tag = splitParts[2];
 							isValid(level, tag);
 							argument = splitParts[1];
 						} else {
-							tag = splitParts[1];
-							isValid(level, tag);
-							argument = splitParts[2];
+							if(splitParts[1].length() == 4) {
+								String [] tempTag = splitParts[1].split("");
+								if (tempTag[0].equalsIgnoreCase("@")) {
+									tag = splitParts[2];
+									isValid(level, tag);
+									argument = splitParts[1];
+								}
+							}
 						}
 					}
 					if (level == 1) {
