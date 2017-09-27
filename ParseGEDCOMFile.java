@@ -27,7 +27,6 @@ public class ParseGEDCOMFile {
 				int level;
 				String tag = "";
 				String argument = "";
-				String tempTag = splitParts[1];
 				
 				level = Integer.parseInt(splitParts[0]);
 				
