@@ -16,7 +16,7 @@ public class ParseGEDCOMFile {
 	public static void main (String [] args) {
 
 		try {
-			File gedcom = new File ("/Users/RANE/Documents/StevensIT/Fall2017/CS555/toParseGEDCOM.ged");
+			File gedcom = new File ("path"); //must specify path
 			
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
 			
