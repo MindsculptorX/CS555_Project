@@ -5,117 +5,221 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-public class Project2 {
+public class ParseGEDCOMFile {
 	public static String [] level0Tag =  {"INDI", "FAM", "HEAD", "TRLR", "NOTE"};
 	public static String [] level1Tag = {"NAME", "SEX", "BIRT", "DEAT", "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL", "DIV"};
 	public static String [] level2Tag = {"DATE"};
 	public static String valid = "";
 	
 	public static void main (String [] args) {
-
+		HashMap<Integer,Individual> indiList = new HashMap<Integer,Individual>();
+		HashMap<Integer,Family> famList = new HashMap<Integer,Family>();
 		try {
-			File gedcom = new File ("/Users/RANE/Documents/StevensIT/Fall2017/CS555/toParseGEDCOM.ged");
-			
-			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
-			
+			File gedcom = new File ("src/input"); //must specify path			
+			BufferedReader reader = new BufferedReader(new FileReader(gedcom));		
 			String readLine = "";
-			
+			Object obj = new Object();
+			int key=0;
 			while ((readLine = reader.readLine()) != null) {
 				String splitParts [] = readLine.split(" ", 3);
 				int level;
 				String tag = "";
-				String argument = "";
-				String tempTag = splitParts[1];
-				
+				String argument = "";	
 				level = Integer.parseInt(splitParts[0]);
-				
-				if (splitParts.length == 2) {
-					tag = splitParts[1];
-					isValid(level, tag);
-				} else if (splitParts.length > 2) {
-					tag = splitParts[1];
+				if(level == 0){
+					if(splitParts.length > 2){
+					if(splitParts[2].equals("INDI")){
+						Individual indi = new Individual();
+						String id = splitParts[1].replaceAll("@", "");
+						key = Integer.parseInt(id.replaceAll("I", ""));
+						indi.setId(id);
+						indiList.put(key, indi);
+						
+				}else if(splitParts[2].equals("FAM")){
+						Family fam = new Family();
+						String id = splitParts[1].replaceAll("@", "");
+						key = Integer.parseInt(id.replaceAll("F", ""));
+						fam.setId(id);
+						famList.put(key, fam);
+
+			}else{
+			}	
+			}			
+			}else if(level == 1){
+				tag = splitParts[1];
+				if(isValid(level,tag)){
+				if(tag.equals("NAME")){
+					Individual indi = indiList.get(key);
 					argument = splitParts[2];
-					if (level == 0) {
-						if (level == 0) {
-						if (splitParts[1].length() > 4) {
-							tag = splitParts[2];
-							isValid(level, tag);
-							argument = splitParts[1];
-						} else {
-							if(splitParts[1].length() == 4) {
-								String [] tempTag = splitParts[1].split("");
-								if (tempTag[0].equalsIgnoreCase("@")) {
-									tag = splitParts[2];
-									isValid(level, tag);
-									argument = splitParts[1];
-								}
-							}
+					indi.setName(argument);
+					indiList.put(key, indi);
+				}else if(tag.equals("SEX")){
+					Individual indi = indiList.get(key);
+					argument = splitParts[2];
+					indi.setGender(argument);
+				}else if(tag.equals("BIRT")){
+					Individual indi = indiList.get(key);
+					if((readLine = reader.readLine()) != null){
+						splitParts = readLine.split(" ",3);
+						level = Integer.parseInt(splitParts[0]);
+						tag = splitParts[1];
+						if(level == 2 && tag.equals("DATE")){
+							argument = splitParts[2];
+							indi.setBirthday(argument);
+							indiList.put(key, indi);
+						}else{
 						}
 					}
-					if (level == 1) {
-						isValid(level, tag);
+				}else if(tag.equals("DEAT")){
+					Individual indi = indiList.get(key);
+					if((readLine = reader.readLine()) != null){
+						splitParts = readLine.split(" ",3);
+						level = Integer.parseInt(splitParts[0]);
+						tag = splitParts[1];
+						if(level == 2 && tag.equals("DATE")){
+							argument = splitParts[2];
+							indi.setDeath(argument);
+							indiList.put(key, indi);
+						}else{
+						}
 					}
-					if (level == 2) {
-						isValid(level, tag);
+				}else if(tag.equals("FAMC")){
+					Individual indi = indiList.get(key);
+					argument = splitParts[2];
+					indi.setFamcId(argument);
+					indiList.put(key, indi);
+				}else if(tag.equals("FAMS")){
+					Individual indi = indiList.get(key);
+					argument = splitParts[2];
+					indi.setFamsId(argument);
+					indiList.put(key, indi);
+				}else if(tag.equals("MARR")){
+					Family fam = famList.get(key);
+					if((readLine = reader.readLine()) != null){
+						splitParts = readLine.split(" ",3);
+						level = Integer.parseInt(splitParts[0]);
+						tag = splitParts[1];
+						if(level == 2 && tag.equals("DATE")){
+							argument = splitParts[2];
+							fam.setMarried(argument);
+							famList.put(key, fam);
+						}
+					}
+				}else if(tag.equals("HUSB")){
+					Family fam = famList.get(key);
+					argument = splitParts[2].replace("@", "");
+					fam.setHusId(argument);
+					int id = Integer.parseInt(argument.replaceAll("I", ""));
+					Individual indi = indiList.get(id);
+					String husName = indi.getName();
+					fam.setHusName(husName);
+					famList.put(key, fam);
+				}else if(tag.equals("WIFE")){
+					Family fam = famList.get(key);
+					argument = splitParts[2].replace("@", "");
+					int id = Integer.parseInt(argument.replaceAll("I", ""));
+					fam.setWifId(argument);
+					Individual indi = indiList.get(id);
+					String wifName = indi.getName();
+					fam.setWifName(wifName);
+					famList.put(key, fam);
+				}else if(tag.equals("CHIL")){
+					Family fam = famList.get(key);
+					argument = splitParts[2].replace("@", "");
+					ArrayList children =fam.getChildren();
+					children.add(argument);
+					fam.setChildren(children);
+					famList.put(key, fam);
+				}else if(tag.equals("DIV")){
+					Family fam = famList.get(key);
+					if((readLine = reader.readLine()) != null){
+						splitParts = readLine.split(" ",3);
+						level = Integer.parseInt(splitParts[0]);
+						tag = splitParts[1];
+						if(level == 2 && tag.equals("DATE")){
+							argument = splitParts[2];
+							fam.setDivorced(argument);
+							famList.put(key, fam);
+						}else{
+							break;
+						}
 					}
 				}
-				
-				System.out.println("-->" + readLine);
-				System.out.println("<--" + level + "|" + tag + "|" + valid + "|" + argument);
-				
+				}
 			}
-		} catch (IOException e) {
+			}
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("INDI");
+		System.out.println("-------------------------------------");
+		for(int i = 0;i< 5000;i++){
+			if(indiList.containsKey(i)){
+				Individual indi = indiList.get(i);
+				System.out.println(indi);
+			}
+		}
+		System.out.println("-------------------------------------");
+		System.out.println("FAM");
+		System.out.println("-------------------------------------");
+		for(int i = 0;i< 1000;i++){
+			if(famList.containsKey(i)){
+				Family fam = famList.get(i);
+				System.out.println(fam);
+			}
+		}
 	}
-
-	public static void isValid(Integer _level, String _tag) {
+	
+	public static boolean isValid(Integer _level, String _tag) {
 		int level = _level; 
 		String tempTag = _tag;
 		
 		if (level == 0) {
 			List<String> list = Arrays.asList(level0Tag);
 			if (list.contains(tempTag)) {
-				valid = "Y";
+				return true;
 			} else {
-				valid = "N";
+				return false;
 			}
 		}
 		if (level == 1) {
 			List<String> list = Arrays.asList(level1Tag);
 			if (list.contains(tempTag)) {
-				valid = "Y";
+				return true;
 			} else {
-				valid = "N";
+				return false;
 			}
 		}
 		if (level == 2) {
 			List<String> list = Arrays.asList(level2Tag);
 			if (list.contains(tempTag)) {
-				valid = "Y";
+				return true;
 			} else {
-				valid = "N";
+				return false;
 			}
 		}
+		return false;
 	}
 	
 }
-	 class individual{
+	 class Individual{
 			private String id;
 			private String name;
 			private int age;
 			private String gender;
 			private String birthday;
 			private boolean Alive;
-			private String death;
-			private ArrayList<String> child;
-			private ArrayList<String> Spouse;
-			public individual(){
+			private String death = "N/A";
+			private String famcId = "N/A";
+			private String famsId = "N/A";
+			public Individual(){
 				setAlive(true);
 			}
-			public individual(String id,String name,String gender,String birthday){
+			public Individual(String id,String name,String gender,String birthday){
 				setId(id);
 				setName(name);
 				setGender(gender);
@@ -164,18 +268,17 @@ public class Project2 {
 			public void setDeath(String death) {
 				this.death = transDate(death);
 			}
-
-			public ArrayList<String> getChild() {
-				return child;
+			public String getFamcId() {
+				return famcId;
 			}
-			public void setChild(ArrayList<String> child) {
-				this.child = child;
+			public void setFamcId(String famcId) {
+				this.famcId = famcId;
 			}
-			public ArrayList<String> getSpouse() {
-				return Spouse;
+			public String getFamsId() {
+				return famsId;
 			}
-			public void setSpouse(ArrayList<String> spouse) {
-				Spouse = spouse;
+			public void setFamsId(String famsId) {
+				this.famsId = famsId;
 			}
 			public String transDate(String date){
 				String split[] = date.split(" ");
@@ -210,21 +313,29 @@ public class Project2 {
 				String d = year+"-"+month+"-"+day;	
 				return d;
 			}
+			@Override
+			public String toString() {
+				return "Individual [id=" + id + ", name=" + name + ", age="
+						+ age + ", gender=" + gender + ", birthday=" + birthday
+						+ ", Alive=" + Alive + ", death=" + death + ", famcId="
+						+ famcId + ", famsId=" + famsId + "]";
+			}
+			
 				
 		}
-		 class family{
+		 class Family{
 			 private String id;
 			 private String married;
-			 private String divorced;
+			 private String divorced = "N/A";
 			 private String husId;
 			 private String wifId;
 			 private String husName;
 			 private String wifName;
 			 private ArrayList<String> children;
-			public family(){
-				
+			public Family(){
+				setChildren(new ArrayList<String>());
 			}
-			public family(String id,String married,String husId,String wifId){
+			public Family(String id,String married,String husId,String wifId){
 				setId(id);
 				setMarried(married);
 				setHusId(husId);
@@ -311,5 +422,14 @@ public class Project2 {
 				String year = split[2];
 				String d = year+"-"+month+"-"+day;	
 				return d;
-			} 
+			}
+			@Override
+			public String toString() {
+				return "Family [id=" + id + ", married=" + married
+						+ ", divorced=" + divorced + ", husId=" + husId
+						+ ", wifId=" + wifId + ", husName=" + husName
+						+ ", wifName=" + wifName + ", children=" + children
+						+ "]";
+			}
+			
 		 }
