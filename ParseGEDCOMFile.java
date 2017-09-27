@@ -18,10 +18,8 @@ public class ParseGEDCOMFile {
 		HashMap<Integer,Individual> indiList = new HashMap<Integer,Individual>();
 		HashMap<Integer,Family> famList = new HashMap<Integer,Family>();
 		try {
-
 			File gedcom = new File ("src/input"); //must specify path			
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));		
-
 			String readLine = "";
 			Object obj = new Object();
 			int key=0;
@@ -91,12 +89,12 @@ public class ParseGEDCOMFile {
 				}else if(tag.equals("FAMC")){
 					Individual indi = indiList.get(key);
 					argument = splitParts[2];
-					indi.setFamcId(argument);
+					indi.setFamcId(argument.replaceAll("@", ""));
 					indiList.put(key, indi);
 				}else if(tag.equals("FAMS")){
 					Individual indi = indiList.get(key);
 					argument = splitParts[2];
-					indi.setFamsId(argument);
+					indi.setFamsId(argument.replaceAll("@", ""));
 					indiList.put(key, indi);
 				}else if(tag.equals("MARR")){
 					Family fam = famList.get(key);
@@ -285,6 +283,10 @@ public class ParseGEDCOMFile {
 			public String transDate(String date){
 				String split[] = date.split(" ");
 				String day = split[0];
+				int temp = Integer.parseInt(day);
+				if(temp<10){
+					day="0"+day;
+				}
 				String month=null;
 				if(split[1].equals("JAN")){
 					month="01";
@@ -395,6 +397,10 @@ public class ParseGEDCOMFile {
 			public String transDate(String date){
 				String split[] = date.split(" ");
 				String day = split[0];
+				int temp = Integer.parseInt(day);
+				if(temp<10){
+					day="0"+day;
+				}
 				String month=null;
 				if(split[1].equals("JAN")){
 					month="01";
