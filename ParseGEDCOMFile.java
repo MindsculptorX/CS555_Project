@@ -68,6 +68,8 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
+							int year = Integer.parseInt(argument.split(" ")[2]);
+							indi.setAge(2017 - year);
 							indi.setBirthday(argument);
 							indiList.put(key, indi);
 						}else{
@@ -81,6 +83,8 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
+							int year = Integer.parseInt(argument.split(" ")[2]);
+							indi.setAge(year - 2017 + indi.getAge());
 							indi.setDeath(argument);
 							indiList.put(key, indi);
 						}else{
@@ -155,23 +159,29 @@ public class ParseGEDCOMFile {
 			e.printStackTrace();
 		}
 		
-		System.out.println("INDI");
-		System.out.println("-------------------------------------");
+		System.out.println("Individuals");
+		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
+		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
 		for(int i = 0;i< 5000;i++){
 			if(indiList.containsKey(i)){
 				Individual indi = indiList.get(i);
-				System.out.println(indi);
+				System.out.printf("  %-4s   %-16s    %-5s  %-11s  %-4s  %-6s  %-11s    %-6s    %-6s\n", 
+						indi.getId(), indi.getName(), indi.getGender(), indi.getBirthday(),indi.getAge(), indi.getDeath() == "N/A" ? "True" : "False", indi.getDeath() == "N/A" ? "   N/A     " : indi.getDeath(), indi.getFamcId(), indi.getFamsId());
 			}
 		}
-		System.out.println("-------------------------------------");
-		System.out.println("FAM");
-		System.out.println("-------------------------------------");
+		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========\n");
+		
+		System.out.println("Families");
+		System.out.println("  ID     Married      Divorced    Husband ID     Husband Name     Wife ID      Wife Name          Children    ");
+		System.out.println("====== ============ ============ ============ ================== ========= ================== ================");
 		for(int i = 0;i< 1000;i++){
 			if(famList.containsKey(i)){
 				Family fam = famList.get(i);
-				System.out.println(fam);
+				System.out.printf("  %-4s  %-11s  %-11s     %-8s  %-17s    %-6s   %-16s    %-13s\n", 
+						fam.getId(), fam.getMarried(), fam.getDivorced() == "N/A" ? "   N/A    " : fam.getDivorced(), fam.getHusId(), fam.getHusName(), fam.getWifId(), fam.getWifName(), fam.getChildren());
 			}
 		}
+		System.out.println("====== ============ ============ ============ ================== ========= ================== ================");
 	}
 	
 	public static boolean isValid(Integer _level, String _tag) {
