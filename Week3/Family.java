@@ -9,6 +9,12 @@ public class Family{
 	private String husName;
 	private String wifName;
 	private ArrayList<String> children;
+	private int mDay;
+	private int mMonth;
+	private int mYear;
+	private int dDay;
+	private int dMonth;
+	private int dYear;
 
 	public Family(){
 		setChildren(new ArrayList<String>());
@@ -35,6 +41,14 @@ public class Family{
 
 	public void setMarried(String married) {
 		this.married = transDate(married);
+		String[] temp = this.married.trim().split("-");
+		System.out.println(married);
+		for(int i = 0;i<temp.length;i++){
+			System.out.println(temp[i]);
+		}
+		setmYear(Integer.parseInt(temp[0]));
+		setmMonth(Integer.parseInt(temp[1]));
+		setmDay(Integer.parseInt(temp[2]));
 	}
 
 	public String getDivorced() {
@@ -43,6 +57,10 @@ public class Family{
 
 	public void setDivorced(String divorced) {
 		this.divorced = transDate(divorced);
+		String[] temp = this.divorced.trim().split("-");
+		setdYear(Integer.parseInt(temp[0]));
+		setdMonth(Integer.parseInt(temp[1]));
+		setdDay(Integer.parseInt(temp[2]));
 	}
 
 	public String getHusId() {
@@ -83,6 +101,54 @@ public class Family{
 
 	public void setChildren(ArrayList<String> children) {
 		this.children = children;
+	}
+
+	public int getmDay() {
+		return mDay;
+	}
+
+	public void setmDay(int mDay) {
+		this.mDay = mDay;
+	}
+
+	public int getmMonth() {
+		return mMonth;
+	}
+
+	public void setmMonth(int mMonth) {
+		this.mMonth = mMonth;
+	}
+
+	public int getmYear() {
+		return mYear;
+	}
+
+	public void setmYear(int mYear) {
+		this.mYear = mYear;
+	}
+
+	public int getdDay() {
+		return dDay;
+	}
+
+	public void setdDay(int dDay) {
+		this.dDay = dDay;
+	}
+
+	public int getdMonth() {
+		return dMonth;
+	}
+
+	public void setdMonth(int dMonth) {
+		this.dMonth = dMonth;
+	}
+
+	public int getdYear() {
+		return dYear;
+	}
+
+	public void setdYear(int dYear) {
+		this.dYear = dYear;
 	}
 
 	public String transDate(String date){
