@@ -144,8 +144,10 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
+							if(marriageBeforeDivorce(fam, argument)){
 							fam.setDivorced(argument);
 							famList.put(key, fam);
+							}
 						}else{
 							break;
 						}
@@ -212,5 +214,29 @@ public class ParseGEDCOMFile {
 			}
 		}
 		return false;
+	}
+	public static boolean marriageBeforeDivorce(Family fam,String date){
+		date = fam.transDate(date);
+		String[] temp = date.split("-");
+		int year = Integer.parseInt(temp[0]);
+		int month = Integer.parseInt(temp[1]);
+		int day = Integer.parseInt(temp[2]);
+		if(year<fam.getmYear()){
+			return false;
+		}else if(year>fam.getmYear()){
+			return true;
+		}else{
+			if(month<fam.getmMonth()){
+				return false;
+			}else if(month>fam.getdMonth()){
+				return true;
+			}else{
+				if(day<=fam.getmDay()){
+					return false; 
+				}else{
+					return true;
+				}
+			}
+		}
 	}
 }
