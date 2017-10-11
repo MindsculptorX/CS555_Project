@@ -1,4 +1,4 @@
-# CS555_Project_3
+# CS555_Project
 Team member:
 Xi Zhang 
 Rafael Nunez
