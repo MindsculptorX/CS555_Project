@@ -17,7 +17,7 @@ public class ParseGEDCOMFile {
 		HashMap<Integer,Individual> indiList = new HashMap<Integer,Individual>();
 		HashMap<Integer,Family> famList = new HashMap<Integer,Family>();
 		try {
-			File gedcom = new File ("src/input"); //must specify path
+			File gedcom = new File ("src/path"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
 			String readLine = "";
 			Object obj = new Object();
