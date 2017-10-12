@@ -279,11 +279,16 @@ public class ParseGEDCOMFile {
 		int divorceYear = Integer.parseInt(fam.getDivorced().substring(0,4));
 		int divorceMonth= Integer.parseInt(fam.getDivorced().substring(5,7));
 		int divorceDay = Integer.parseInt(fam.getDivorced().substring(8,10));
-
+		
+		if(divorceYear<deadYear){return true;}
 		if(divorceYear>deadYear){return false;}
+		//Same year↑
+		
+		if(divorceMonth<deadMonth){return true;}
 		if(divorceMonth>deadMonth){return false;}
-		if(divorceDay>deadDay){return false;}
-		return true;
+		//Same month↑
+		if(divorceDay<deadDay){return true;}
+		else{return false;}//Same day included
 
 	}
 }
