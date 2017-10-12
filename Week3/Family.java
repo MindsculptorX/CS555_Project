@@ -42,10 +42,6 @@ public class Family{
 	public void setMarried(String married) {
 		this.married = transDate(married);
 		String[] temp = this.married.trim().split("-");
-		System.out.println(married);
-		for(int i = 0;i<temp.length;i++){
-			System.out.println(temp[i]);
-		}
 		setmYear(Integer.parseInt(temp[0]));
 		setmMonth(Integer.parseInt(temp[1]));
 		setmDay(Integer.parseInt(temp[2]));
