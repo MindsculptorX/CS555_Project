@@ -170,9 +170,9 @@ public class ParseGEDCOMFile {
 					int deadYear = Integer.parseInt(indi.getDeath().substring(0, 4));
 					indi.setAge(deadYear-birthYear);
 				}
-//				System.out.println("TETS-->"+(birthYear - 1000));
 			}
 		}
+		
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
 		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
@@ -251,5 +251,30 @@ public class ParseGEDCOMFile {
 				}
 			}
 		}
+	}
+	public static boolean divorceBeforeDeath(Family fam,Individual indi){
+		//If not divorce return false;
+		
+		if(fam.getDivorced().equals("N/A")){
+			return false;
+		}
+		//if divorce but alive return true
+		if(indi.isAlive()){
+			return true;
+		}
+		//dead and divorced
+		int deadYear = Integer.parseInt(indi.getDeath().substring(0,4));
+		int deadMonth = Integer.parseInt(indi.getDeath().substring(5,7));
+		int deadDay = Integer.parseInt(indi.getDeath().substring(8,10));
+		
+		int divorceYear = Integer.parseInt(fam.getDivorced().substring(0,4));
+		int divorceMonth= Integer.parseInt(fam.getDivorced().substring(5,7));
+		int divorceDay = Integer.parseInt(fam.getDivorced().substring(8,10));
+
+		if(divorceYear>deadYear){return false;}
+		if(divorceMonth>deadMonth){return false;}
+		if(divorceDay>deadDay){return false;}
+		return true;
+
 	}
 }
