@@ -3,9 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class ParseGEDCOMFile {
 	public static String [] level0Tag =  {"INDI", "FAM", "HEAD", "TRLR", "NOTE"};
@@ -49,7 +47,7 @@ public class ParseGEDCOMFile {
 			}
 			}else if(level == 1){
 				tag = splitParts[1];
-				if(isValid(level,tag)){
+				if(isValid.isTagValid(level,tag)){
 				if(tag.equals("NAME")){
 					Individual indi = indiList.get(key);
 					argument = splitParts[2];
@@ -67,10 +65,12 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							int year = Integer.parseInt(argument.split(" ")[2]);
-							indi.setAge(2017 - year);
-							indi.setBirthday(argument);
-							indiList.put(key, indi);
+							if (isValid.dateBeforeToday(argument)){
+								int year = Integer.parseInt(argument.split(" ")[2]);
+								indi.setAge(2017 - year);
+								indi.setBirthday(argument);
+								indiList.put(key, indi);
+							}
 						}else{
 						}
 					}
@@ -82,10 +82,12 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							int year = Integer.parseInt(argument.split(" ")[2]);
-							indi.setAge(year - 2017 + indi.getAge());
-							indi.setDeath(argument);
-							indiList.put(key, indi);
+							if (isValid.dateBeforeToday(argument)){
+								int year = Integer.parseInt(argument.split(" ")[2]);
+								indi.setAge(year - 2017 + indi.getAge());
+								indi.setDeath(argument);
+								indiList.put(key, indi);
+							}
 						}else{
 						}
 					}
@@ -107,8 +109,10 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							fam.setMarried(argument);
-							famList.put(key, fam);
+							if (isValid.dateBeforeToday(argument)){
+								fam.setMarried(argument);
+								famList.put(key, fam);
+							}
 						}
 					}
 				}else if(tag.equals("HUSB")){
@@ -144,9 +148,11 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if(marriageBeforeDivorce(fam, argument)){
-							fam.setDivorced(argument);
-							famList.put(key, fam);
+							if (isValid.dateBeforeToday(argument)){
+								if(marriageBeforeDivorce(fam, argument)){
+								fam.setDivorced(argument);
+								famList.put(key, fam);
+								}
 							}
 						}else{
 							break;
@@ -172,7 +178,7 @@ public class ParseGEDCOMFile {
 				}
 			}
 		}
-		
+
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
 		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
@@ -202,41 +208,11 @@ public class ParseGEDCOMFile {
 				if (!marriageBeforeDivorce(fam, fam.getMarried())) {
 					System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 				}
-				
+
 			}
 		}
 	}
 
-	public static boolean isValid(Integer _level, String _tag) {
-		int level = _level;
-		String tempTag = _tag;
-
-		if (level == 0) {
-			List<String> list = Arrays.asList(level0Tag);
-			if (list.contains(tempTag)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		if (level == 1) {
-			List<String> list = Arrays.asList(level1Tag);
-			if (list.contains(tempTag)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		if (level == 2) {
-			List<String> list = Arrays.asList(level2Tag);
-			if (list.contains(tempTag)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return false;
-	}
 	public static boolean marriageBeforeDivorce(Family fam,String date){
 		date = fam.transDate(date);
 		String[] temp = date.split("-");
@@ -254,16 +230,16 @@ public class ParseGEDCOMFile {
 				return true;
 			}else{
 				if(day<=fam.getmDay()){
-					return false; 
+					return false;
 				}else{
 					return true;
 				}
 			}
 		}
 	}
+
 	public static boolean divorceBeforeDeath(Family fam,Individual indi){
 		//If not divorce return false;
-		
 		if(fam.getDivorced().equals("N/A")){
 			return false;
 		}
@@ -275,15 +251,14 @@ public class ParseGEDCOMFile {
 		int deadYear = Integer.parseInt(indi.getDeath().substring(0,4));
 		int deadMonth = Integer.parseInt(indi.getDeath().substring(5,7));
 		int deadDay = Integer.parseInt(indi.getDeath().substring(8,10));
-		
+
 		int divorceYear = Integer.parseInt(fam.getDivorced().substring(0,4));
 		int divorceMonth= Integer.parseInt(fam.getDivorced().substring(5,7));
 		int divorceDay = Integer.parseInt(fam.getDivorced().substring(8,10));
-		
+
 		if(divorceYear<deadYear){return true;}
 		if(divorceYear>deadYear){return false;}
 		//Same year↑
-		
 		if(divorceMonth<deadMonth){return true;}
 		if(divorceMonth>deadMonth){return false;}
 		//Same month↑
