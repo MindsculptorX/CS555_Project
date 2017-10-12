@@ -27,3 +27,8 @@ Families
   F5    1990-06-21      N/A          I8        Cole /Carter/        I9       Rena /Sharp/        [I10]        
   F6    1998-01-01      N/A          I13       Bald /Michael/       I9       Rena /Sharp/        [I14]        
 ====== ============ ============ ============ ================== ========= ================== ================
+
+
+Error: Birthday 2000-01-01 is after death 2010-01-01
+Error: Date not vaild 2000-00-00
+
