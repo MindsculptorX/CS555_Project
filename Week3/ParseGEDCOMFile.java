@@ -17,7 +17,7 @@ public class ParseGEDCOMFile {
 		HashMap<Integer,Individual> indiList = new HashMap<Integer,Individual>();
 		HashMap<Integer,Family> famList = new HashMap<Integer,Family>();
 		try {
-			File gedcom = new File ("src/path"); //must specify path
+			File gedcom = new File ("gedcomFile.ged"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
 			String readLine = "";
 			Object obj = new Object();
@@ -159,7 +159,20 @@ public class ParseGEDCOMFile {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		//Get the age for each Indi:
+		for(int i = 0;i< 5000;i++){
+			if(indiList.containsKey(i)){
+				Individual indi = indiList.get(i);
+				int birthYear = Integer.parseInt(indi.getBirthday().substring(0, 4));
+				if(indi.isAlive()){
+					indi.setAge(2017-birthYear);
+				}else{
+					int deadYear = Integer.parseInt(indi.getDeath().substring(0, 4));
+					indi.setAge(deadYear-birthYear);
+				}
+//				System.out.println("TETS-->"+(birthYear - 1000));
+			}
+		}
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
 		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
