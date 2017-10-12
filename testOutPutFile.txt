@@ -1,0 +1,29 @@
+Individuals
+  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse 
+====== ================== ======== ============ ===== ======= ============ ========= =========
+  I1     Shawn /Bean/        M      1994-07-30   23    True       N/A         F1        N/A   
+  I2     Irvin /Bean/        M      1968-05-05   49    True       N/A         F2        F1    
+  I3     Ada /Carter/        F      1970-11-08   47    True       N/A         F3        F1    
+  I4     Michel /Carter/     M      1942-01-04   75    True       N/A         N/A       F3    
+  I5     Wanda /Field/       F      1945-07-31   72    True       N/A         N/A       F3    
+  I6     Lance /Bean/        M      1943-10-10   74    False   2016-10-15     N/A       F2    
+  I7     Helen /Arther/      F      1946-09-18   71    True       N/A         N/A       F2    
+  I8     Cole /Carter/       M      1973-05-03   44    True       N/A         F3        F5    
+  I9     Rena /Sharp/        F      1976-12-24   41    True       N/A         N/A       F6    
+  I10    Paul /Carter/       M      1993-02-28   24    True       N/A         F5        N/A   
+  I11    May /Edith/         F      1975-04-14   42    True       N/A         N/A       F4    
+  I12    Patty /Carter/      F      2000-06-03   17    True       N/A         F4        N/A   
+  I13    Bald /Michael/      M      1975-08-05   42    True       N/A         N/A       F6    
+  I14    Lori /Michael/      F      1998-09-17   19    True       N/A         F6        N/A   
+====== ================== ======== ============ ===== ======= ============ ========= =========
+
+Families
+  ID     Married      Divorced    Husband ID     Husband Name     Wife ID      Wife Name          Children    
+====== ============ ============ ============ ================== ========= ================== ================
+  F1    1992-03-04      N/A          I2        Irvin /Bean/         I3       Ada /Carter/        [I1]         
+  F2    1965-05-03      N/A          I6        Lance /Bean/         I7       Helen /Arther/      [I2]         
+  F3    1967-08-08      N/A          I4        Michel /Carter/      I5       Wanda /Field/       [I3, I8]     
+  F4    1999-08-06      N/A          I8        Cole /Carter/        I11      May /Edith/         [I12]        
+  F5    1990-06-21      N/A          I8        Cole /Carter/        I9       Rena /Sharp/        [I10]        
+  F6    1998-01-01      N/A          I13       Bald /Michael/       I9       Rena /Sharp/        [I14]        
+====== ============ ============ ============ ================== ========= ================== ================
