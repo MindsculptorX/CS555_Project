@@ -195,7 +195,16 @@ public class ParseGEDCOMFile {
 						fam.getId(), fam.getMarried(), fam.getDivorced() == "N/A" ? "   N/A    " : fam.getDivorced(), fam.getHusId(), fam.getHusName(), fam.getWifId(), fam.getWifName(), fam.getChildren());
 			}
 		}
-		System.out.println("====== ============ ============ ============ ================== ========= ================== ================");
+		System.out.println("====== ============ ============ ============ ================== ========= ================== ================\n");
+		for(int i = 0;i< 1000;i++){
+			if(famList.containsKey(i)){
+				Family fam = famList.get(i);
+				if (!marriageBeforeDivorce(fam, fam.getMarried())) {
+					System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
+				}
+				
+			}
+		}
 	}
 
 	public static boolean isValid(Integer _level, String _tag) {
