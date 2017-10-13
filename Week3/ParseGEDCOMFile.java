@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ParseGEDCOMFile {
-	public static String [] level0Tag =  {"INDI", "FAM", "HEAD", "TRLR", "NOTE"};
-	public static String [] level1Tag = {"NAME", "SEX", "BIRT", "DEAT", "FAMC", "FAMS", "MARR", "HUSB", "WIFE", "CHIL", "DIV"};
-	public static String [] level2Tag = {"DATE"};
-	public static String valid = "";
 
 	public static void main (String [] args) {
 		HashMap<Integer,Individual> indiList = new HashMap<Integer,Individual>();
@@ -18,7 +14,6 @@ public class ParseGEDCOMFile {
 			File gedcom = new File ("gedcomFile.ged"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
 			String readLine = "";
-			Object obj = new Object();
 			int key=0;
 			while ((readLine = reader.readLine()) != null) {
 				String splitParts [] = readLine.split(" ", 3);
@@ -65,7 +60,7 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (isValid.dateBeforeToday(argument)){
+							if (DateComparison.beforeToday(argument)){
 								int year = Integer.parseInt(argument.split(" ")[2]);
 								indi.setAge(2017 - year);
 								indi.setBirthday(argument);
@@ -82,11 +77,13 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (isValid.dateBeforeToday(argument)){
-								int year = Integer.parseInt(argument.split(" ")[2]);
-								indi.setAge(year - 2017 + indi.getAge());
-								indi.setDeath(argument);
-								indiList.put(key, indi);
+							if (DateComparison.beforeToday(argument)){
+								if (DateComparison.beforeDate(indi.getBirthday(), argument)){
+									int year = Integer.parseInt(argument.split(" ")[2]);
+									indi.setAge(year - 2017 + indi.getAge());
+									indi.setDeath(argument);
+									indiList.put(key, indi);
+								}
 							}
 						}else{
 						}
@@ -109,7 +106,7 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (isValid.dateBeforeToday(argument)){
+							if (DateComparison.beforeToday(argument)){
 								fam.setMarried(argument);
 								famList.put(key, fam);
 							}
@@ -148,7 +145,7 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (isValid.dateBeforeToday(argument)){
+							if (DateComparison.beforeToday(argument)){
 								if(marriageBeforeDivorce(fam, argument)){
 								fam.setDivorced(argument);
 								famList.put(key, fam);
