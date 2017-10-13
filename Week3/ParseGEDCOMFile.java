@@ -60,12 +60,10 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (DateComparison.beforeToday(argument)){
-								int year = Integer.parseInt(argument.split(" ")[2]);
-								indi.setAge(2017 - year);
-								indi.setBirthday(argument);
-								indiList.put(key, indi);
-							}
+							int year = Integer.parseInt(argument.split(" ")[2]);
+							indi.setAge(2017 - year);
+							indi.setBirthday(argument);
+							indiList.put(key, indi);
 						}else{
 						}
 					}
@@ -77,14 +75,10 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (DateComparison.beforeToday(argument)){
-								if (DateComparison.beforeDate(indi.getBirthday(), argument)){
-									int year = Integer.parseInt(argument.split(" ")[2]);
-									indi.setAge(year - 2017 + indi.getAge());
-									indi.setDeath(argument);
-									indiList.put(key, indi);
-								}
-							}
+							int year = Integer.parseInt(argument.split(" ")[2]);
+							indi.setAge(year - 2017 + indi.getAge());
+							indi.setDeath(argument);
+							indiList.put(key, indi);
 						}else{
 						}
 					}
@@ -106,10 +100,8 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (DateComparison.beforeToday(argument)){
-								fam.setMarried(argument);
-								famList.put(key, fam);
-							}
+							fam.setMarried(argument);
+							famList.put(key, fam);
 						}
 					}
 				}else if(tag.equals("HUSB")){
@@ -145,12 +137,8 @@ public class ParseGEDCOMFile {
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
 							argument = splitParts[2];
-							if (DateComparison.beforeToday(argument)){
-								if(marriageBeforeDivorce(fam, argument)){
-								fam.setDivorced(argument);
-								famList.put(key, fam);
-								}
-							}
+							fam.setDivorced(argument);
+							famList.put(key, fam);
 						}else{
 							break;
 						}
