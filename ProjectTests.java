@@ -4,22 +4,22 @@ import org.junit.Test;
 
 public class ProjectTests {
 	@Test
-	public void testPassForIsValid() {
+	public void testPassForIsValidDate() {
 		assertEquals(true, isValid.dateBeforeToday("30 JUL 1994"));
 	}
 
 	@Test
-	public void testFailForIsValid() {
+	public void testFailForIsValidDate() {
 		assertEquals(false, isValid.dateBeforeToday("31 DEC 2017"));
 	}
 
 	@Test
-	public void testPassForIsTagValid() {
+	public void testPassForIsValidTag() {
 		assertEquals(true, isValid.isTagValid(1, "SEX"));
 	}
 
 	@Test
-	public void testFailForIsTagValid() {
+	public void testFailForIsValidTag() {
 		assertEquals(false, isValid.isTagValid(2, "WIFE"));
 	}
 
