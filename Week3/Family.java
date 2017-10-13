@@ -185,6 +185,13 @@ public class Family{
 		return d;
 	}
 
+	public  boolean marriageBeforeDivorce(){
+	if(DateComparison.beforeDate(getMarried(),getDivorced())){
+		return true;
+	}else{
+		return false;
+	}
+	}
 	@Override
 	public String toString() {
 		return "Family [id=" + id + ", married=" + married
