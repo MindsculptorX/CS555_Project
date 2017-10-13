@@ -31,6 +31,8 @@ Families
 Errors
 ERROR: INDIVIDUAL: I6 Birthday 2021-10-10 occurs in the future
 ERROR: INDIVIDUAL: I6 Death 2019-10-15 occurs in the future
+ERROR: INDIVIDUAL: I7 More than 150 years old, Birth date 1746-09-18
+ERROR: INDIVIDUAL: I7 More than 150 years old at death, Birth 1746-09-18, Death 2016-03-7
 ERROR: INDIVIDUAL: I12 Birthday 2018-06-3 occurs in the future
 ERROR: FAMILY: F5 Divorce 2018-12-31 before married 2019-06-21
 ERROR: FAMILY: F5 Marriage date 2019-06-21 occurs in the future
