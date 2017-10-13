@@ -3,6 +3,17 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ProjectTests {
+	
+	@Test
+	public void testPassForXi() {
+		Individual hus = new Individual();
+	    hus.setDeath("10 AUG 2014");
+	    Individual wife = new Individual();
+	    Family fam = new Family();
+	    fam.setDivorced("5 JUN 2014");
+	    System.out.println(ParseGEDCOMFile.divorceBeforeDeath(fam, wife, hus));
+		assertEquals(true,ParseGEDCOMFile.divorceBeforeDeath(fam, wife, hus).equals("N/AHusband"));
+	}
 	@Test
 	public void testPassForIsValidTag() {
 		assertEquals(true, isValid.isTagValid(1, "SEX"));

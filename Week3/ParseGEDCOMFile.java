@@ -78,7 +78,6 @@ public class ParseGEDCOMFile {
 							int year = Integer.parseInt(argument.split(" ")[2]);
 							indi.setAge(year - 2017 + indi.getAge());
 							indi.setDeath(argument);
-							indi.setAlive(false);
 							indiList.put(key, indi);
 						}else{
 						}
@@ -191,13 +190,15 @@ public class ParseGEDCOMFile {
 		for(int i = 0;i< 1000;i++){
 			if(famList.containsKey(i)){
 				Family fam = famList.get(i);
-				Individual husband = indiList.get(fam.getHusId());
-				Individual wife = indiList.get(fam.getWifId());
+				//BUG before::
+				//We use haspMap<Integer,Indi> So don`t
+				Individual husband = indiList.get(Integer.parseInt(fam.getHusId().substring(1)));
+				Individual wife = indiList.get(Integer.parseInt(fam.getWifId().substring(1)));
 				if (!fam.marriageBeforeDivorce()) {
 					System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 				}
 //				if(!divorceBeforeDeath(fam,wife,husband).equals("N/A")){
-//					System.out.println("Error in "+ divorceBeforeDeath(fam,wife,husband));
+					System.out.println("Error in "+ divorceBeforeDeath(fam,wife,husband));
 //				}
 //NEED TO DO
 			}
@@ -207,16 +208,17 @@ public class ParseGEDCOMFile {
 	
 	public static String divorceBeforeDeath(Family fam,Individual Wife,Individual Husband){
 		//return N/A for no error
-		//return Husband for husband died before divorce
-		//return Wife    for wife    died before divorce
-		//return HusbandWife for both died before divorce
-		String ans = ""; 
+		//return N/AHusband for husband died before divorce
+		//return N/AWife    for wife    died before divorce
+		//return N/AHusbandWife for both died before divorce
+		String ans = "N/A"; 
 		if(fam.getDivorced().equals("N/A")){
-			return "N/A";//It means make sense
+			return ans;//It means make sense
 		}
-		
-		if(!Husband.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Husband.getDeath())){
-			ans +="Husband";
+		if(!Husband.isAlive()){ 
+			if(DateComparison.beforeDate(fam.getDivorced(),Husband.getDeath())){
+				ans +="Husband";
+			}
 		}
 		if(!Wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Wife.getDeath())){
 			ans += "Wife";

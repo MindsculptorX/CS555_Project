@@ -73,7 +73,9 @@ public class Individual {
 			return death;
 		}
 
-		public void setDeath(String death) {
+		public void setDeath(String death) 
+		{
+			setAlive(false);
 			this.death = transDate(death);
 		}
 
