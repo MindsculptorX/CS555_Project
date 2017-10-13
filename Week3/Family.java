@@ -186,6 +186,9 @@ public class Family{
 	}
 
 	public  boolean marriageBeforeDivorce(){
+	if(getDivorced().equals("N/A")){
+		return true;
+	}
 	if(DateComparison.beforeDate(getMarried(),getDivorced())){
 		return true;
 	}else{

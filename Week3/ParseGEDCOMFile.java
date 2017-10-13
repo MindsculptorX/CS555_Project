@@ -78,6 +78,7 @@ public class ParseGEDCOMFile {
 							int year = Integer.parseInt(argument.split(" ")[2]);
 							indi.setAge(year - 2017 + indi.getAge());
 							indi.setDeath(argument);
+							indi.setAlive(false);
 							indiList.put(key, indi);
 						}else{
 						}
@@ -190,41 +191,37 @@ public class ParseGEDCOMFile {
 		for(int i = 0;i< 1000;i++){
 			if(famList.containsKey(i)){
 				Family fam = famList.get(i);
+				Individual husband = indiList.get(fam.getHusId());
+				Individual wife = indiList.get(fam.getWifId());
 				if (!fam.marriageBeforeDivorce()) {
 					System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 				}
-
+//				if(!divorceBeforeDeath(fam,wife,husband).equals("N/A")){
+//					System.out.println("Error in "+ divorceBeforeDeath(fam,wife,husband));
+//				}
+//NEED TO DO
 			}
 		}
 	}
 
 	
-	public static boolean divorceBeforeDeath(Family fam,Individual indi){
-		//If not divorce return false;
+	public static String divorceBeforeDeath(Family fam,Individual Wife,Individual Husband){
+		//return N/A for no error
+		//return Husband for husband died before divorce
+		//return Wife    for wife    died before divorce
+		//return HusbandWife for both died before divorce
+		String ans = ""; 
 		if(fam.getDivorced().equals("N/A")){
-			return false;
+			return "N/A";//It means make sense
 		}
-		//if divorce but alive return true
-		if(indi.isAlive()){
-			return true;
+		
+		if(!Husband.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Husband.getDeath())){
+			ans +="Husband";
 		}
-		//dead and divorced
-		int deadYear = Integer.parseInt(indi.getDeath().substring(0,4));
-		int deadMonth = Integer.parseInt(indi.getDeath().substring(5,7));
-		int deadDay = Integer.parseInt(indi.getDeath().substring(8,10));
-
-		int divorceYear = Integer.parseInt(fam.getDivorced().substring(0,4));
-		int divorceMonth= Integer.parseInt(fam.getDivorced().substring(5,7));
-		int divorceDay = Integer.parseInt(fam.getDivorced().substring(8,10));
-
-		if(divorceYear<deadYear){return true;}
-		if(divorceYear>deadYear){return false;}
-		//Same year↑
-		if(divorceMonth<deadMonth){return true;}
-		if(divorceMonth>deadMonth){return false;}
-		//Same month↑
-		if(divorceDay<deadDay){return true;}
-		else{return false;}//Same day included
-
+		if(!Wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Wife.getDeath())){
+			ans += "Wife";
+		}
+		return ans;
+		
 	}
 }
