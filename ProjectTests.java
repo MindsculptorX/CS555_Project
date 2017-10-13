@@ -15,12 +15,12 @@ public class ProjectTests {
 
 	@Test
 	public void testPassForIsValidDate() {
-		assertEquals(true, isValid.dateBeforeToday("30 JUL 1994"));
+		assertEquals(true, DateComparison.beforeToday("30 JUL 1994"));
 	}
 
 	@Test
 	public void testFailForIsValidDate() {
-		assertEquals(false, isValid.dateBeforeToday("31 DEC 2017"));
+		assertEquals(false, DateComparison.beforeToday("31 DEC 2017"));
 	}
 
 	@Test
