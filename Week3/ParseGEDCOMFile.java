@@ -190,7 +190,7 @@ public class ParseGEDCOMFile {
 		for(int i = 0;i< 1000;i++){
 			if(famList.containsKey(i)){
 				Family fam = famList.get(i);
-				if (!marriageBeforeDivorce(fam, fam.getMarried())) {
+				if (!fam.marriageBeforeDivorce()) {
 					System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 				}
 
@@ -198,31 +198,7 @@ public class ParseGEDCOMFile {
 		}
 	}
 
-	public static boolean marriageBeforeDivorce(Family fam,String date){
-		date = fam.transDate(date);
-		String[] temp = date.split("-");
-		int year = Integer.parseInt(temp[0]);
-		int month = Integer.parseInt(temp[1]);
-		int day = Integer.parseInt(temp[2]);
-		if(year<fam.getmYear()){
-			return false;
-		}else if(year>fam.getmYear()){
-			return true;
-		}else{
-			if(month<fam.getmMonth()){
-				return false;
-			}else if(month>fam.getdMonth()){
-				return true;
-			}else{
-				if(day<=fam.getmDay()){
-					return false;
-				}else{
-					return true;
-				}
-			}
-		}
-	}
-
+	
 	public static boolean divorceBeforeDeath(Family fam,Individual indi){
 		//If not divorce return false;
 		if(fam.getDivorced().equals("N/A")){
