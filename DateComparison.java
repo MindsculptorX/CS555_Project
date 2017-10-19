@@ -31,7 +31,14 @@ public class DateComparison {
 		}
 
 	}
-
+	public static long differentValueDate(String _date1,String _date2){
+		Date date1 = parse(_date1, formatDate);
+		Date date2 = parse(_date2, formatDate);
+		long day = (date1.getTime()-date2.getTime())/(24*60*60*1000)>0 ? (date1.getTime()-date2.getTime())/(24*60*60*1000): 
+			   (date2.getTime()-date1.getTime())/(24*60*60*1000);
+		return day;
+		
+	}
 	public static Date parse (String _date, DateFormat...formatters) {
 		Date date = null;
 		for (DateFormat formatter: formatters) {
