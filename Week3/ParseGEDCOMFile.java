@@ -203,6 +203,19 @@ public class ParseGEDCOMFile {
 //NEED TO DO
 			}
 		}
+		System.out.println("====== ============ ============ ============ ================== ========= ================== ================\n");
+		for(int i = 0;i<5000;i++){
+			if(indiList.containsKey(i)){
+				Individual indi = indiList.get(i);
+				if(!indi.getFamcId().equals("N/A")){
+				int famcId = Integer.parseInt(indi.getFamcId().substring(1));
+				Family famc = famList.get(famcId);
+				if(!BirthBeforeMarriageOfParents(indi, famc)){
+					System.out.println("EOORO: INDIVIDUAL: "+indi.getId()+" Birth at "+indi.getBirthday()+" before 9 month of parents "+famc.getId()+"married day"+famc.getMarried());
+				}
+				}
+			}
+		}
 	}
 
 	
@@ -223,7 +236,18 @@ public class ParseGEDCOMFile {
 		if(!Wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Wife.getDeath())){
 			ans += "Wife";
 		}
-		return ans;
-		
+		return ans;	
+	}
+	public static boolean BirthBeforeMarriageOfParents(Individual indi,Family fam){
+		if(DateComparison.beforeDate(fam.getMarried(),indi.getBirthday())){
+			long birthAfterMarried = DateComparison.differentValueDate(fam.getMarried(), indi.getBirthday());
+			if(birthAfterMarried >=270){
+				return true;
+			}else{
+			return false;
+			}
+		}else{
+			return false;
+		}
 	}
 }

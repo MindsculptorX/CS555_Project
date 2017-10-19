@@ -185,6 +185,7 @@ public class Family{
 		return d;
 	}
 
+	// new marriageBeforeDivorce function, call the beforeDate function from DateComparison
 	public  boolean marriageBeforeDivorce(){
 	if(getDivorced().equals("N/A")){
 		return true;
