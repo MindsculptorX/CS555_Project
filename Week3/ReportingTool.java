@@ -115,7 +115,10 @@ public class ReportingTool {
 			Family fam = famList.get(familyId);
 			Individual father = indiList.get(Integer.parseInt(fam.getHusbandId().substring(1)));
 			Individual mother = indiList.get(Integer.parseInt(fam.getWifeId().substring(1)));
-			if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
+			if(father.getDeath().equals("N/A") &&  mother.getDeath().equals("N/A")){
+				return true;
+			}
+			else if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
 				return true;
 			}else if(!mother.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), mother.getDeath())){
 				return true;
@@ -131,9 +134,9 @@ public class ReportingTool {
     		return true;
     	}else{
     		Individual[] children = new Individual[family.getChildren().size()];
+    		HashMap<Integer,Individual> indiList = ParseGEDCOMFile.indiList;
     		for(int i=0;i<family.getChildren().size();i++){
     			int childrenId = Integer.parseInt(family.getChildren().get(i).substring(1));
-    			HashMap<Integer,Individual> indiList = ParseGEDCOMFile.indiList;
     			Individual indi = indiList.get(childrenId);
     			children[i] = indi;
     		}
