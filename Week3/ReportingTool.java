@@ -51,6 +51,25 @@ public class ReportingTool {
 	public static boolean lessThenOneFiveZero (Individual _individual) {
 		return _individual.getAge() < 150 ? true : false;
 	}
+	
+	public static boolean SiblingsSpacing(Individual _individual) {
+		//true for Birth dates of siblings less than 8 months apart and more than 2 days apart 
+		if (_individual.getFamcId().equals("N/A")) {
+			return false;
+		} else {
+			int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
+			ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
+			for (String sibling : siblings) {
+				Individual sib = ParseGEDCOMFile.indiList.get(Integer.parseInt(sibling.substring(1)));
+				if (sib == null || sib == _individual) {
+					return false;
+				} 
+				long differentDateOfSibs = DateComparison.differentValueDate(sib.getBirthday(), _individual.getBirthday());
+				return (differentDateOfSibs < 240 && differentDateOfSibs > 2) ? true : false;
+			}
+		}
+		return false;
+	}
 
 	public static boolean MarriageToDescendants(Individual _individual) {
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
