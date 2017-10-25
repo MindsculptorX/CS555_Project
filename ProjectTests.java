@@ -180,6 +180,15 @@ public class ProjectTests {
 		family.setChildren(children);
 		assertEquals(true, family.getChildren().contains(family.getHusbandId()));
 	}
+	public static boolean birthBeforeDeathOfparents(Individual child,Individual father,Individual mother){
+		if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
+			return true;
+		}else if(!mother.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), mother.getDeath())){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	@Test
 	public void testPassBirthBeforeDeathOfParents(){
 		Individual child = new Individual();
@@ -187,7 +196,7 @@ public class ProjectTests {
 		Individual father  = new Individual();
 		father.setDeath("22 OCT 2010");
 		Individual mother = new Individual();
-		assertEquals(true, ReportingTool.BirthBeforeDeathOfParents(child,father,mother));
+		assertEquals(true, birthBeforeDeathOfparents(child,father,mother));
 	}
 	@Test
 	public void testFailBirthBeforeDeathOfParents(){
@@ -196,7 +205,25 @@ public class ProjectTests {
 		Individual father  = new Individual();
 		father.setDeath("22 OCT 2004");
 		Individual mother = new Individual();
-		assertEquals(false, ReportingTool.BirthBeforeDeathOfParents(child,father,mother));
+		assertEquals(false, birthBeforeDeathOfparents(child,father,mother));
+	}
+	public static boolean multiPleBirthLessThan5(Individual[] children){
+    	if(children.length<=5){
+    		return true;
+    	}else{
+    		for(int i=0;i<children.length;i++){
+        		int sameBirthDay = 0;
+    			for(int j=0;j<children.length;j++){
+    				if(children[i].getBirthday().equals(children[j].getBirthday())){
+    					sameBirthDay+=1;
+    					if(sameBirthDay>5){
+    						return false;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	return true;
 	}
 	@Test
 	public void testPassMultipleBirthsLessThan5(){
@@ -207,13 +234,13 @@ public class ProjectTests {
 		Individual kid3 = new Individual();
 		kid3.setBirthday("10 SEP 2007");
 		Individual kid4 = new Individual();
-		kid4.setBirthday("10 SEP 2005");
+		kid4.setBirthday("10 SEP 2007");
 		Individual kid5 = new Individual();
 		kid5.setBirthday("10 SEP 2007");
 		Individual kid6 = new Individual();
 		kid6.setBirthday("10 SEP 2007");
 		Individual[] children = {kid1,kid2,kid3,kid4,kid5,kid6};
-		assertEquals(true, ReportingTool.MultipleBirthsLessThan5(children));	
+		assertEquals(true, multiPleBirthLessThan5(children));	
 	}
 	
 	@Test
@@ -231,7 +258,7 @@ public class ProjectTests {
 		Individual kid6 = new Individual();
 		kid6.setBirthday("10 SEP 2007");
 		Individual[] children = {kid1,kid2,kid3,kid4,kid5,kid6};
-		assertEquals(false, ReportingTool.MultipleBirthsLessThan5(children));	
+		assertEquals(false, multiPleBirthLessThan5(children));	
 	}
 
 }
