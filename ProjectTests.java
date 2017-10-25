@@ -233,5 +233,21 @@ public class ProjectTests {
 		Individual[] children = {kid1,kid2,kid3,kid4,kid5,kid6};
 		assertEquals(false, ReportingTool.MultipleBirthsLessThan5(children));	
 	}
+	
+	
+		
+	@Test
+	public void testPassLessThenOneFiveZero() {
+		Individual person = new Individual();
+		person.setAge(90);
+		assertEquals(true, ReportingTool.lessThenOneFiveZero(person));
+	}
+	
+	@Test
+	public void testFailLessThenOneFiveZero() {
+		Individual person = new Individual();
+		person.setAge(180);
+		assertEquals(false, ReportingTool.lessThenOneFiveZero(person));
+	}
 
 }
