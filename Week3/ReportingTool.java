@@ -144,6 +144,27 @@ public class ReportingTool {
 //NEED TO DO
 		}
 	}
+	    
+	    for(int i = 0;i< 5000;i++){
+		if(indiList.containsKey(i)){
+		Individual indi = indiList.get(i);
+			if (!lessThenOneFiveZero(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + " is more than 150 years old.");
+			}
+//			if (MarriageToDescendants(indi)) {
+				
+//			}
+//			if (MarriageToSiblings(indi)) {
+				
+//			}
+//			if (birthBeforeDeath(indi)) {
+				
+//			}
+//			if (birthBeforeDeath(indi)) {
+				
+//			}
+		}
+	}
 }
 
 }
