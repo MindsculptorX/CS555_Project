@@ -1,6 +1,7 @@
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ReportingTool {
@@ -50,17 +51,6 @@ public class ReportingTool {
 	public static boolean lessThenOneFiveZero (Individual _individual) {
 		return _individual.getAge() < 150 ? true : false;
 	}
-	
-	public static boolean MarriageBeforeFourteen(Individual _individual) {
-		if (_individual.getFamsId().equals("N/A")) {
-			return false;
-		} else {
-			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
-			long AgeOfMarriage = DateComparison.differentValueDate(ParseGEDCOMFile.famList.get(spouseFamily).getMarried(), _individual.getBirthday()) / 365;
-			return AgeOfMarriage < 14 ? true : false;
-		}
-	}
-	
 
 	public static boolean MarriageToDescendants(Individual _individual) {
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
@@ -117,19 +107,36 @@ public class ReportingTool {
 		}
 	}
 	
-	public static boolean BirthBeforeDeathOfParents(Individual child,Individual father,Individual mother){
-		if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
-			return true;
-		}else if(!mother.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), mother.getDeath())){
-			return true;
+	public static boolean BirthBeforeDeathOfParents(Individual child){
+		HashMap<Integer,Individual> indiList = ParseGEDCOMFile.indiList;
+		HashMap<Integer,Family> famList = ParseGEDCOMFile.famList;
+		if(!child.getFamcId().equals("N/A")){
+			int familyId = Integer.parseInt(child.getFamcId().substring(1));
+			Family fam = famList.get(familyId);
+			Individual father = indiList.get(Integer.parseInt(fam.getHusbandId().substring(1)));
+			Individual mother = indiList.get(Integer.parseInt(fam.getWifeId().substring(1)));
+			if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
+				return true;
+			}else if(!mother.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), mother.getDeath())){
+				return true;
+			}else{
+				return false;
+			}
 		}else{
-			return false;
+			return true;
 		}
 	}
-    public static boolean MultipleBirthsLessThan5(Individual[] children){
-    	if(children.length<=5){
+    public static boolean MultipleBirthsLessThan5(Family family){   	
+    	if(family.getChildren().size()<=5){
     		return true;
     	}else{
+    		Individual[] children = new Individual[family.getChildren().size()];
+    		for(int i=0;i<family.getChildren().size();i++){
+    			int childrenId = Integer.parseInt(family.getChildren().get(i).substring(1));
+    			HashMap<Integer,Individual> indiList = ParseGEDCOMFile.indiList;
+    			Individual indi = indiList.get(childrenId);
+    			children[i] = indi;
+    		}
     		for(int i=0;i<children.length;i++){
         		int sameBirthDay = 0;
     			for(int j=0;j<children.length;j++){
@@ -140,9 +147,9 @@ public class ReportingTool {
     					}
     				}
     			}
-    		}
     	}
     	return true;
+    }
     }
 
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
@@ -183,27 +190,6 @@ public class ReportingTool {
 				System.out.println("Error in "+ ReportingTool.divorceBeforeDeath(fam,wife,husband));
 //			}
 //NEED TO DO
-		}
-	}
-	    
-	    for(int i = 0;i< 5000;i++){
-		if(indiList.containsKey(i)){
-		Individual indi = indiList.get(i);
-			if (!lessThenOneFiveZero(indi)) {
-				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + " is more than 150 years old.");
-			}
-//			if (MarriageToDescendants(indi)) {
-				
-//			}
-//			if (MarriageToSiblings(indi)) {
-				
-//			}
-//			if (birthBeforeDeath(indi)) {
-				
-//			}
-//			if (birthBeforeDeath(indi)) {
-				
-//			}
 		}
 	}
 }
