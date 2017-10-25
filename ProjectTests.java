@@ -11,8 +11,8 @@ public class ProjectTests {
 	    Individual wife = new Individual();
 	    Family fam = new Family();
 	    fam.setDivorced("5 JUN 2014");
-	    System.out.println(ParseGEDCOMFile.divorceBeforeDeath(fam, wife, hus));
-		assertEquals(true,ParseGEDCOMFile.divorceBeforeDeath(fam, wife, hus).equals("N/AHusband"));
+	    System.out.println(ReportingTool.divorceBeforeDeath(fam, wife, hus));
+		assertEquals(true, ReportingTool.divorceBeforeDeath(fam, wife, hus).equals("N/AHusband"));
 	}
 	@Test
 	public void testPassForIsValidTag() {
@@ -63,7 +63,7 @@ public class ProjectTests {
 		fam.setMarried("5 JUN 2015");
 		Individual indi = new Individual();
 		indi.setBirthday("5 JUN 2017");
-		assertEquals(true, ParseGEDCOMFile.BirthBeforeMarriageOfParents(indi,fam));
+		assertEquals(true, ReportingTool.BirthBeforeMarriageOfParents(indi,fam));
 	}
 	@Test 
 	public void testBirthBeforeMarriageOfParents2(){
@@ -71,7 +71,7 @@ public class ProjectTests {
 		fam.setMarried("5 JUN 2015");
 		Individual indi = new Individual();
 		indi.setBirthday("5 JAN 2016");
-		assertEquals(false, ParseGEDCOMFile.BirthBeforeMarriageOfParents(indi,fam));
+		assertEquals(false, ReportingTool.BirthBeforeMarriageOfParents(indi,fam));
 	}
 
 }

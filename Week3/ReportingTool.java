@@ -1,6 +1,7 @@
+import java.util.Map;
 
-public class Tool {
-    //we put every function here
+public class ReportingTool {
+	 //we put every function here
     //every user story
     public static String divorceBeforeDeath(Family fam,Individual Wife,Individual Husband){
 		//return N/A for no error
@@ -72,10 +73,11 @@ public class Tool {
 				System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 			}
 //			if(!divorceBeforeDeath(fam,wife,husband).equals("N/A")){
-				System.out.println("Error in "+ Tool.divorceBeforeDeath(fam,wife,husband));
+				System.out.println("Error in "+ ReportingTool.divorceBeforeDeath(fam,wife,husband));
 //			}
 //NEED TO DO
 		}
 	}
 }
+
 }
