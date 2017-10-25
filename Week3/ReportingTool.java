@@ -9,11 +9,11 @@ public class ReportingTool {
 		//return N/AHusband for husband died before divorce
 		//return N/AWife    for wife    died before divorce
 		//return N/AHusbandWife for both died before divorce
-		String ans = "N/A"; 
+		String ans = "N/A";
 		if(fam.getDivorced().equals("N/A")){
 			return ans;//It means make sense
 		}
-		if(!Husband.isAlive()){ 
+		if(!Husband.isAlive()){
 			if(DateComparison.beforeDate(fam.getDivorced(),Husband.getDeath())){
 				ans +="Husband";
 			}
@@ -21,9 +21,9 @@ public class ReportingTool {
 		if(!Wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Wife.getDeath())){
 			ans += "Wife";
 		}
-		return ans;		
+		return ans;
 	}
-	
+
 	public static boolean BirthBeforeMarriageOfParents(Individual indi,Family fam){
 		if(DateComparison.beforeDate(fam.getMarried(),indi.getBirthday())){
 			long birthAfterMarried = DateComparison.differentValueDate(fam.getMarried(), indi.getBirthday());
@@ -36,7 +36,7 @@ public class ReportingTool {
 			return false;
 		}
 	}
-	
+
 	public static boolean numberOfSiblings (Family _family) {
 		if(_family.getChildren().size() >= 15) {
 			return false;
@@ -44,20 +44,20 @@ public class ReportingTool {
 			return true;
 		}
 	}
-	
+
 	public static boolean lessThenOneFiveZero (Individual _individual) {
 		return _individual.getAge() < 150 ? true : false;
 	}
-    
+
 	public static boolean MarriageToDescendants(Individual _individual) {
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
 		ArrayList<String> children = ParseGEDCOMFile.famList.get(spouseFamily).getChildren();
 		String spouse = "";
-	  
+
 		if(_individual.getGender().equalsIgnoreCase("M")) {
-			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifId();
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
 		} else if (_individual.getGender().equalsIgnoreCase("F")) {
-			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusId();
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
 		}
 
 		if (children.contains(spouse)) {
@@ -66,17 +66,17 @@ public class ReportingTool {
 			return false;
 		}
 	}
-	
+
 	public static boolean MarriageToSiblings(Individual _individual) {
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
 		int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
 		ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
 		String spouse = "";
-	  
+
 		if(_individual.getGender().equalsIgnoreCase("M")) {
-			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifId();
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
 		} else if (_individual.getGender().equalsIgnoreCase("F")) {
-		  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusId();
+		  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
 		}
 
 		if (siblings.contains(spouse)) {
@@ -85,7 +85,7 @@ public class ReportingTool {
 			return false;
 		}
 	}
-	
+
 	public static boolean birthBeforeMarriage(Individual _individual) {
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
 		String dateMarried = ParseGEDCOMFile.famList.get(spouseFamily).getMarried();
@@ -95,7 +95,7 @@ public class ReportingTool {
 			return false;
 		}
 	}
-	
+
 	public static boolean birthBeforeDeath(Individual _individual) {
 		if(DateComparison.beforeDate(_individual.getBirthday(), _individual.getDeath())) {
 			return true;
@@ -103,7 +103,7 @@ public class ReportingTool {
 			return false;
 		}
 	}
-    
+
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
@@ -124,7 +124,7 @@ public class ReportingTool {
 		if(famList.containsKey(i)){
 			Family fam = famList.get(i);
 			System.out.printf("  %-4s  %-11s  %-11s     %-8s  %-17s    %-6s   %-16s    %-13s\n",
-					fam.getId(), fam.getMarried(), fam.getDivorced() == "N/A" ? "   N/A    " : fam.getDivorced(), fam.getHusId(), fam.getHusName(), fam.getWifId(), fam.getWifName(), fam.getChildren());
+					fam.getId(), fam.getMarried(), fam.getDivorced() == "N/A" ? "   N/A    " : fam.getDivorced(), fam.getHusbandId(), fam.getHusbandName(), fam.getWifeId(), fam.getWifeName(), fam.getChildren());
 		}
 	}
 	System.out.println("====== ============ ============ ============ ================== ========= ================== ================\n");
@@ -133,8 +133,8 @@ public class ReportingTool {
 			Family fam = famList.get(i);
 			//BUG before::
 			//We use haspMap<Integer,Indi> So don`t
-			Individual husband = indiList.get(Integer.parseInt(fam.getHusId().substring(1)));
-			Individual wife = indiList.get(Integer.parseInt(fam.getWifId().substring(1)));
+			Individual husband = indiList.get(Integer.parseInt(fam.getHusbandId().substring(1)));
+			Individual wife = indiList.get(Integer.parseInt(fam.getWifeId().substring(1)));
 			if (!fam.marriageBeforeDivorce()) {
 				System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 			}

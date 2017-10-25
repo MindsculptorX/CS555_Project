@@ -109,20 +109,20 @@ public class ParseGEDCOMFile {
 				}else if(tag.equals("HUSB")){
 					Family fam = famList.get(key);
 					argument = splitParts[2].replace("@", "");
-					fam.setHusId(argument);
+					fam.setHusbandId(argument);
 					int id = Integer.parseInt(argument.replaceAll("I", ""));
 					Individual indi = indiList.get(id);
 					String husName = indi.getName();
-					fam.setHusName(husName);
+					fam.setHusbandName(husName);
 					famList.put(key, fam);
 				}else if(tag.equals("WIFE")){
 					Family fam = famList.get(key);
 					argument = splitParts[2].replace("@", "");
 					int id = Integer.parseInt(argument.replaceAll("I", ""));
-					fam.setWifId(argument);
+					fam.setWifeId(argument);
 					Individual indi = indiList.get(id);
 					String wifName = indi.getName();
-					fam.setWifName(wifName);
+					fam.setWifeName(wifName);
 					famList.put(key, fam);
 				}else if(tag.equals("CHIL")){
 					Family fam = famList.get(key);

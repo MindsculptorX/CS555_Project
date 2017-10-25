@@ -4,8 +4,8 @@ public class Family{
 	private String id;
 	private String married;
 	private String divorced = "N/A";
-	private String husId;
-	private String wifId;
+	private String husbandId;
+	private String wifeId;
 	private String husName;
 	private String wifName;
 	private ArrayList<String> children;
@@ -20,11 +20,11 @@ public class Family{
 		setChildren(new ArrayList<String>());
 	}
 
-	public Family(String id,String married,String husId,String wifId){
+	public Family(String id,String married,String husbandId,String wifeId){
 		setId(id);
 		setMarried(married);
-		setHusId(husId);
-		setWifId(wifId);
+		setHusbandId(husbandId);
+		setWifeId(wifeId);
 	}
 
 	public String getId() {
@@ -59,35 +59,35 @@ public class Family{
 		setdDay(Integer.parseInt(temp[2]));
 	}
 
-	public String getHusId() {
-		return husId;
+	public String getHusbandId() {
+		return husbandId;
 	}
 
-	public void setHusId(String husId) {
-		this.husId = husId;
+	public void setHusbandId(String husbandId) {
+		this.husbandId = husbandId;
 	}
 
-	public String getWifId() {
-		return wifId;
+	public String getWifeId() {
+		return wifeId;
 	}
 
-	public void setWifId(String wifId) {
-		this.wifId = wifId;
+	public void setWifeId(String wifeId) {
+		this.wifeId = wifeId;
 	}
 
-	public String getHusName() {
+	public String getHusbandName() {
 		return husName;
 	}
 
-	public void setHusName(String husName) {
+	public void setHusbandName(String husName) {
 		this.husName = husName;
 	}
 
-	public String getWifName() {
+	public String getWifeName() {
 		return wifName;
 	}
 
-	public void setWifName(String wifName) {
+	public void setWifeName(String wifName) {
 		this.wifName = wifName;
 	}
 
@@ -199,8 +199,8 @@ public class Family{
 	@Override
 	public String toString() {
 		return "Family [id=" + id + ", married=" + married
-				+ ", divorced=" + divorced + ", husId=" + husId
-				+ ", wifId=" + wifId + ", husName=" + husName
+				+ ", divorced=" + divorced + ", husbandId=" + husbandId
+				+ ", wifeId=" + wifeId + ", husName=" + husName
 				+ ", wifName=" + wifName + ", children=" + children
 				+ "]";
 	}
