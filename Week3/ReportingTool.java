@@ -35,6 +35,14 @@ public class ReportingTool {
 			return false;
 		}
 	}
+	
+	public static boolean numberOfSiblings (Family _family) {
+	  if(_family.getChildren().size() >= 15) {
+	    return false;
+	  } else {
+	    return true;
+	  }
+	}
     
     
     
