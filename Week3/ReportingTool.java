@@ -52,6 +52,16 @@ public class ReportingTool {
 		return _individual.getAge() < 150 ? true : false;
 	}
 	
+	public static boolean MarriageBeforeFourteen(Individual _individual) {
+		if (_individual.getFamsId().equals("N/A")) {
+			return false;
+		} else {
+			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+			long AgeOfMarriage = DateComparison.differentValueDate(ParseGEDCOMFile.famList.get(spouseFamily).getMarried(), _individual.getBirthday()) / 365;
+			return AgeOfMarriage < 14 ? true : false;
+		}
+	}
+	
 	public static boolean SiblingsSpacing(Individual _individual) {
 		//true for Birth dates of siblings less than 8 months apart and more than 2 days apart 
 		if (_individual.getFamcId().equals("N/A")) {
