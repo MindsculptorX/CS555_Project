@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.junit.Test;
 
 public class ProjectTests {
@@ -178,6 +179,59 @@ public class ProjectTests {
 		children.addAll(Arrays.asList(kids));
 		family.setChildren(children);
 		assertEquals(true, family.getChildren().contains(family.getHusbandId()));
+	}
+	@Test
+	public void testPassBirthBeforeDeathOfParents(){
+		Individual child = new Individual();
+		child.setBirthday("10 SEP 2007");
+		Individual father  = new Individual();
+		father.setDeath("22 OCT 2010");
+		Individual mother = new Individual();
+		assertEquals(true, ReportingTool.BirthBeforeDeathOfParents(child,father,mother));
+	}
+	@Test
+	public void testFailBirthBeforeDeathOfParents(){
+		Individual child = new Individual();
+		child.setBirthday("10 SEP 2007");
+		Individual father  = new Individual();
+		father.setDeath("22 OCT 2004");
+		Individual mother = new Individual();
+		assertEquals(false, ReportingTool.BirthBeforeDeathOfParents(child,father,mother));
+	}
+	@Test
+	public void testPassMultipleBirthsLessThan5(){
+		Individual kid1 = new Individual();
+		kid1.setBirthday("10 SEP 2007");
+		Individual kid2 = new Individual();
+		kid2.setBirthday("10 SEP 2005");
+		Individual kid3 = new Individual();
+		kid3.setBirthday("10 SEP 2007");
+		Individual kid4 = new Individual();
+		kid4.setBirthday("10 SEP 2005");
+		Individual kid5 = new Individual();
+		kid5.setBirthday("10 SEP 2007");
+		Individual kid6 = new Individual();
+		kid6.setBirthday("10 SEP 2007");
+		Individual[] children = {kid1,kid2,kid3,kid4,kid5,kid6};
+		assertEquals(true, ReportingTool.MultipleBirthsLessThan5(children));	
+	}
+	
+	@Test
+	public void testFailMultipleBirthsLessThan5(){
+		Individual kid1 = new Individual();
+		kid1.setBirthday("10 SEP 2007");
+		Individual kid2 = new Individual();
+		kid2.setBirthday("10 SEP 2007");
+		Individual kid3 = new Individual();
+		kid3.setBirthday("10 SEP 2007");
+		Individual kid4 = new Individual();
+		kid4.setBirthday("10 SEP 2007");
+		Individual kid5 = new Individual();
+		kid5.setBirthday("10 SEP 2007");
+		Individual kid6 = new Individual();
+		kid6.setBirthday("10 SEP 2007");
+		Individual[] children = {kid1,kid2,kid3,kid4,kid5,kid6};
+		assertEquals(false, ReportingTool.MultipleBirthsLessThan5(children));	
 	}
 
 }
