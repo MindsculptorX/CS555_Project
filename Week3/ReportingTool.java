@@ -43,6 +43,10 @@ public class ReportingTool {
 	    return true;
 	  }
 	}
+	
+	public static boolean lessThenOneFiveZero (Individual _individual) {
+		return _individual.getAge() < 150 ? true : false;
+	}
     
     
     
