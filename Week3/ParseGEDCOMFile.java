@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ParseGEDCOMFile {
+	public static HashMap<Integer,Individual> indiList;
+	public static HashMap<Integer,Family> famList;
 
-	public static void main (String [] args) {
-		HashMap<Integer,Individual> indiList = new HashMap<Integer,Individual>();
-		HashMap<Integer,Family> famList = new HashMap<Integer,Family>();
+	public static void setMap () {
+		indiList = new HashMap<Integer,Individual>();
+		famList = new HashMap<Integer,Family>();
 		try {
 			File gedcom = new File ("gedcomFile.ged"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
@@ -163,91 +165,4 @@ public class ParseGEDCOMFile {
 				}
 			}
 		}
-
-		System.out.println("Individuals");
-		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
-		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
-		for(int i = 0;i< 5000;i++){
-			if(indiList.containsKey(i)){
-				Individual indi = indiList.get(i);
-				System.out.printf("  %-4s   %-16s    %-5s  %-11s  %-4s  %-6s  %-11s    %-6s    %-6s\n",
-						indi.getId(), indi.getName(), indi.getGender(), indi.getBirthday(),indi.getAge(), indi.getDeath() == "N/A" ? "True" : "False", indi.getDeath() == "N/A" ? "   N/A     " : indi.getDeath(), indi.getFamcId(), indi.getFamsId());
-			}
-		}
-		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========\n");
-
-		System.out.println("Families");
-		System.out.println("  ID     Married      Divorced    Husband ID     Husband Name     Wife ID      Wife Name          Children    ");
-		System.out.println("====== ============ ============ ============ ================== ========= ================== ================");
-		for(int i = 0;i< 1000;i++){
-			if(famList.containsKey(i)){
-				Family fam = famList.get(i);
-				System.out.printf("  %-4s  %-11s  %-11s     %-8s  %-17s    %-6s   %-16s    %-13s\n",
-						fam.getId(), fam.getMarried(), fam.getDivorced() == "N/A" ? "   N/A    " : fam.getDivorced(), fam.getHusId(), fam.getHusName(), fam.getWifId(), fam.getWifName(), fam.getChildren());
-			}
-		}
-		System.out.println("====== ============ ============ ============ ================== ========= ================== ================\n");
-		for(int i = 0;i< 1000;i++){
-			if(famList.containsKey(i)){
-				Family fam = famList.get(i);
-				//BUG before::
-				//We use haspMap<Integer,Indi> So don`t
-				Individual husband = indiList.get(Integer.parseInt(fam.getHusId().substring(1)));
-				Individual wife = indiList.get(Integer.parseInt(fam.getWifId().substring(1)));
-				if (!fam.marriageBeforeDivorce()) {
-					System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
-				}
-//				if(!divorceBeforeDeath(fam,wife,husband).equals("N/A")){
-					System.out.println("Error in "+ divorceBeforeDeath(fam,wife,husband));
-//				}
-//NEED TO DO
-			}
-		}
-		System.out.println("====== ============ ============ ============ ================== ========= ================== ================\n");
-		for(int i = 0;i<5000;i++){
-			if(indiList.containsKey(i)){
-				Individual indi = indiList.get(i);
-				if(!indi.getFamcId().equals("N/A")){
-				int famcId = Integer.parseInt(indi.getFamcId().substring(1));
-				Family famc = famList.get(famcId);
-				if(!BirthBeforeMarriageOfParents(indi, famc)){
-					System.out.println("EOORO: INDIVIDUAL: "+indi.getId()+" Birth at "+indi.getBirthday()+" before 9 month of parents "+famc.getId()+"married day"+famc.getMarried());
-				}
-				}
-			}
-		}
-	}
-
-	
-	public static String divorceBeforeDeath(Family fam,Individual Wife,Individual Husband){
-		//return N/A for no error
-		//return N/AHusband for husband died before divorce
-		//return N/AWife    for wife    died before divorce
-		//return N/AHusbandWife for both died before divorce
-		String ans = "N/A"; 
-		if(fam.getDivorced().equals("N/A")){
-			return ans;//It means make sense
-		}
-		if(!Husband.isAlive()){ 
-			if(DateComparison.beforeDate(fam.getDivorced(),Husband.getDeath())){
-				ans +="Husband";
-			}
-		}
-		if(!Wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Wife.getDeath())){
-			ans += "Wife";
-		}
-		return ans;	
-	}
-	public static boolean BirthBeforeMarriageOfParents(Individual indi,Family fam){
-		if(DateComparison.beforeDate(fam.getMarried(),indi.getBirthday())){
-			long birthAfterMarried = DateComparison.differentValueDate(fam.getMarried(), indi.getBirthday());
-			if(birthAfterMarried >=270){
-				return true;
-			}else{
-			return false;
-			}
-		}else{
-			return false;
-		}
-	}
 }
