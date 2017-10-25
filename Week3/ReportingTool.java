@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ReportingTool {
@@ -37,18 +38,71 @@ public class ReportingTool {
 	}
 	
 	public static boolean numberOfSiblings (Family _family) {
-	  if(_family.getChildren().size() >= 15) {
-	    return false;
-	  } else {
-	    return true;
-	  }
+		if(_family.getChildren().size() >= 15) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	public static boolean lessThenOneFiveZero (Individual _individual) {
 		return _individual.getAge() < 150 ? true : false;
 	}
     
-    
+	public static boolean MarriageToDescendants(Individual _individual) {
+		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+		ArrayList<String> children = ParseGEDCOMFile.famList.get(spouseFamily).getChildren();
+		String spouse = "";
+	  
+		if(_individual.getGender().equalsIgnoreCase("M")) {
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifId();
+		} else if (_individual.getGender().equalsIgnoreCase("F")) {
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusId();
+		}
+
+		if (children.contains(spouse)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean MarriageToSiblings(Individual _individual) {
+		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+		int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
+		ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
+		String spouse = "";
+	  
+		if(_individual.getGender().equalsIgnoreCase("M")) {
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifId();
+		} else if (_individual.getGender().equalsIgnoreCase("F")) {
+		  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusId();
+		}
+
+		if (siblings.contains(spouse)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean birthBeforeMarriage(Individual _individual) {
+		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+		String dateMarried = ParseGEDCOMFile.famList.get(spouseFamily).getMarried();
+		if(DateComparison.beforeDate(_individual.getBirthday(), dateMarried)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean birthBeforeDeath(Individual _individual) {
+		if(DateComparison.beforeDate(_individual.getBirthday(), _individual.getDeath())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
     
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");

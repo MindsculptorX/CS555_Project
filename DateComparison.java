@@ -19,6 +19,20 @@ public class DateComparison {
 		}
 
 	}
+	
+	public static boolean illegitimateDate (String _date) {
+		SimpleDateFormat format = new SimpleDateFormat ("dd MMM yyyy");
+		format.setLenient(false);
+		Date date;
+		
+		try {
+			date = format.parse(_date);
+			return true;
+		} catch (ParseException e) {
+			//System.out.println("Invalid Date");
+			return false;
+		}
+	}
 
 	public static boolean beforeDate (String _date1, String _date2) {
 		Date date1 = parse(_date1, formatDate);
@@ -45,7 +59,7 @@ public class DateComparison {
 			try {
 				date =formatter.parse(_date);
 			} catch (ParseException e) {
-
+				
 			}
 		}
 
