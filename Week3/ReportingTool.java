@@ -50,6 +50,17 @@ public class ReportingTool {
 	public static boolean lessThenOneFiveZero (Individual _individual) {
 		return _individual.getAge() < 150 ? true : false;
 	}
+	
+	public static boolean MarriageBeforeFourteen(Individual _individual) {
+		if (_individual.getFamsId().equals("N/A")) {
+			return false;
+		} else {
+			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+			long AgeOfMarriage = DateComparison.differentValueDate(ParseGEDCOMFile.famList.get(spouseFamily).getMarried(), _individual.getBirthday()) / 365;
+			return AgeOfMarriage < 14 ? true : false;
+		}
+	}
+	
 
 	public static boolean MarriageToDescendants(Individual _individual) {
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
