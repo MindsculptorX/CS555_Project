@@ -35,6 +35,9 @@ public class Tool {
 		}
 	}
     
+    	public static boolean lessThenOneFiveZero (Individual _individual) {
+		return _individual.getAge() < 150 ? true : false;
+	}
     
     
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
