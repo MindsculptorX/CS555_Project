@@ -1,3 +1,5 @@
+
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -103,6 +105,34 @@ public class ReportingTool {
 			return false;
 		}
 	}
+	
+	public static boolean BirthBeforeDeathOfParents(Individual child,Individual father,Individual mother){
+		if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
+			return true;
+		}else if(!mother.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), mother.getDeath())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+    public static boolean MultipleBirthsLessThan5(Individual[] children){
+    	if(children.length<=5){
+    		return true;
+    	}else{
+    		for(int i=0;i<children.length;i++){
+        		int sameBirthDay = 0;
+    			for(int j=0;j<children.length;j++){
+    				if(children[i].getBirthday().equals(children[j].getBirthday())){
+    					sameBirthDay+=1;
+    					if(sameBirthDay>5){
+    						return false;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	return true;
+    }
 
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
