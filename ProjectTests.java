@@ -86,30 +86,6 @@ public class ProjectTests {
 	}
 
 	@Test
-	public void testFailForBirthBeforeMarriage() {
-		Individual person1 = new Individual();
-		person1.setBirthday("14 FEB 1986");
-		Family family = new Family("E1", "7 JUL 1980", "P1", "L1");
-		assertEquals(false, DateComparison.beforeDate(person1.getBirthday(), family.getMarried()));
-	}
-
-	@Test
-	public void testPassForBirthBeforeDeath() {
-		Individual person = new Individual();
-		person.setBirthday("14 FEB 1986");
-		person.setDeath("15 AUG 2016");
-		assertEquals(true, DateComparison.beforeDate(person.getBirthday(), person.getDeath()));
-	}
-
-	@Test
-	public void testFailForBirthBeforeDeath() {
-		Individual person = new Individual();
-		person.setBirthday("14 FEB 1976");
-		person.setDeath("15 AUG 1955");
-		assertEquals(false, DateComparison.beforeDate(person.getBirthday(), person.getDeath()));
-	}
-
-	@Test
 	public void testMarriageBeforeDivorced3(){
 		Family fam = new Family();
 		fam.setDivorced("5 JUN 2015");
