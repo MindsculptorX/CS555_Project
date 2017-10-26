@@ -65,5 +65,9 @@ public class DateComparison {
 
 		return date;
 	}
+	
+	public static int getYearFromDataStr(String date){
+		return Integer.parseInt(date.split("-")[0]);
+	}
 
 }

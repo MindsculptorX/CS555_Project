@@ -27,6 +27,40 @@ public class ReportingTool {
 		return ans;
 	}
 
+    //↓here is Xi's sprint2 code
+	public static Individual getIndiById(String ID) {
+		ID = ID.substring(1);
+		return ParseGEDCOMFile.indiList.get(Integer.parseInt(ID));
+	}
+
+	public static boolean MaleLastNames(Family fam) {// If indi is a MALE and don't share the name with the fami, return false.
+		for (int i = 0; i < fam.getChildren().size(); i++) {
+			Individual child = getIndiById(fam.getChildren().get(i));
+			if (child.getGender().equals("M")) {
+				String fatherLastName = fam.getHusbandName().split(" ")[1];
+				String sonLastName = child.getName().split(" ")[1];
+				return fatherLastName.equals(sonLastName);
+			}
+		}
+		return true;
+	}
+
+	public static boolean ParentsNotTooOld(Family fam) {
+		// Individual father = getIndiById(fam.getHusbandId());
+		// Individual mother = getIndiById(fam.getWifeId());
+		// Integer.parseInt(indi.getBirthday().substring(0, 4));
+		int fatherBirth = Integer.parseInt(getIndiById(fam.getHusbandId()).getBirthday().substring(0, 4));
+		int motherBirth = Integer.parseInt(getIndiById(fam.getWifeId()).getBirthday().substring(0, 4));
+		for (int i = 0; i < fam.getChildren().size(); i++) {
+			int chlidBirth = Integer.parseInt(getIndiById(fam.getChildren().get(i)).getBirthday().substring(0, 4));
+			if ((chlidBirth + 60 < motherBirth) || (chlidBirth + 80 < fatherBirth)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+    
 	public static boolean BirthBeforeMarriageOfParents(Individual indi){
 		if(!indi.getFamcId().equals("N/A")){
 			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
