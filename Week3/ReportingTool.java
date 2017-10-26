@@ -124,39 +124,47 @@ public class ReportingTool {
 	}
 
 	public static boolean MarriageToDescendants(Individual _individual) {
-		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
-		ArrayList<String> children = ParseGEDCOMFile.famList.get(spouseFamily).getChildren();
-		String spouse = "";
-
-		if(_individual.getGender().equalsIgnoreCase("M")) {
-			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
-		} else if (_individual.getGender().equalsIgnoreCase("F")) {
-			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
-		}
-
-		if (children.contains(spouse)) {
-			return true;
-		} else {
+		if(_individual.getFamsId().equalsIgnoreCase("N/A")) {
 			return false;
+		} else {
+			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+			ArrayList<String> children = ParseGEDCOMFile.famList.get(spouseFamily).getChildren();
+			String spouse = "";
+
+			if(_individual.getGender().equalsIgnoreCase("M")) {
+				spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
+			} else if (_individual.getGender().equalsIgnoreCase("F")) {
+				spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
+			}
+
+			if (children.contains(spouse)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
 	public static boolean MarriageToSiblings(Individual _individual) {
-		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
-		int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
-		ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
-		String spouse = "";
-
-		if(_individual.getGender().equalsIgnoreCase("M")) {
-			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
-		} else if (_individual.getGender().equalsIgnoreCase("F")) {
-		  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
-		}
-
-		if (siblings.contains(spouse)) {
-			return true;
-		} else {
+		if(_individual.getFamcId().equalsIgnoreCase("N/A")) {
 			return false;
+		} else {
+			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+			int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
+			ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
+			String spouse = "";
+
+			if(_individual.getGender().equalsIgnoreCase("M")) {
+				spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
+			} else if (_individual.getGender().equalsIgnoreCase("F")) {
+			  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
+			}
+
+			if (siblings.contains(spouse)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
