@@ -42,7 +42,7 @@ public class ReportingTool {
 			return false;
 		}
 		}else{
-			return false;
+			return true;
 		}
 	}
 
