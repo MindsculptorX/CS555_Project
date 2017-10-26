@@ -262,20 +262,45 @@ public class ReportingTool {
 		}
 	}
 	System.out.println("====== ============ ============ ============ ================== ========= ================== ================\n");
+	
+	    
 	for(int i = 0;i< 1000;i++){
 		if(famList.containsKey(i)){
 			Family fam = famList.get(i);
-			//BUG before::
-			//We use haspMap<Integer,Indi> So don`t
-			Individual husband = indiList.get(Integer.parseInt(fam.getHusbandId().substring(1)));
-			Individual wife = indiList.get(Integer.parseInt(fam.getWifeId().substring(1)));
-			if (!fam.marriageBeforeDivorce()) {
-				System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
+			
+		}
+	}
+	
+	for(int i = 0;i< 5000;i++){
+		if(indiList.containsKey(i)){
+			Individual indi = indiList.get(i);
+			if (!BirthBeforeDeathOfParents(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "birth after death of parents.");
 			}
-//			if(!divorceBeforeDeath(fam,wife,husband).equals("N/A")){
-				System.out.println("Error in "+ ReportingTool.divorceBeforeDeath(fam));
-//			}
-//NEED TO DO
+			if (!lessThenOneFiveZero(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "is more than 150 years old.");
+			}
+			if (MarriageBeforeFourteen(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "got married before 14 years old.");
+			}
+			if (SiblingsSpacing(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "has the problem of sibling spacing.");
+			}
+			if (MarriageToDescendants(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "got married to descendants.");
+			}
+			if (MarriageToSiblings(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "got married to siblings.");
+			}
+			if (birthBeforeMarriage(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "birth before marriage.");
+			}
+			if (!birthBeforeDeath(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "birth after death.");
+			}
+			if (!BirthBeforeDeathOfParents(indi)) {
+				System.out.println("ERROR: INDIVIDUAL: " + indi.getId() + " " + indi.getName() + "birth after death of parents.");
+			}
 		}
 	}
 }
