@@ -146,7 +146,7 @@ public class ReportingTool {
 	}
 
 	public static boolean MarriageToSiblings(Individual _individual) {
-		if(_individual.getFamcId().equalsIgnoreCase("N/A")) {
+		if(_individual.getFamcId().equalsIgnoreCase("N/A") || _individual.getFamsId().equalsIgnoreCase("N/A")) {
 			return false;
 		} else {
 			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
