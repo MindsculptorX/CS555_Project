@@ -55,7 +55,7 @@ public class ReportingTool {
 		int motherBirth = Integer.parseInt(getIndiById(fam.getWifeId()).getBirthday().substring(0, 4));
 		for (int i = 0; i < fam.getChildren().size(); i++) {
 			int chlidBirth = Integer.parseInt(getIndiById(fam.getChildren().get(i)).getBirthday().substring(0, 4));
-			if ((chlidBirth + 60 < motherBirth) || (chlidBirth + 80 < fatherBirth)) {
+			if ((chlidBirth > motherBirth + 60) || (chlidBirth > fatherBirth + 80)) {
 				return false;
 			}
 		}
