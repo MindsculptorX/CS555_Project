@@ -106,7 +106,8 @@ public class ProjectTests {
 		fam.setMarried("5 JUN 2015");
 		Individual indi = new Individual();
 		indi.setBirthday("5 JUN 2017");
-		assertEquals(true, ReportingTool.BirthBeforeMarriageOfParents(indi,fam));
+		long beforeDay = DateComparison.differentValueDate(indi.getBirthday(), fam.getMarried());
+		assertEquals(true, beforeDay>270);
 	}
 	@Test
 	public void testBirthBeforeMarriageOfParents2(){
@@ -114,7 +115,8 @@ public class ProjectTests {
 		fam.setMarried("5 JUN 2015");
 		Individual indi = new Individual();
 		indi.setBirthday("5 JAN 2016");
-		assertEquals(false, ReportingTool.BirthBeforeMarriageOfParents(indi,fam));
+		long beforeDay = DateComparison.differentValueDate(indi.getBirthday(), fam.getMarried());
+		assertEquals(false, beforeDay>270);
 	}
 
 	@Test
@@ -181,6 +183,10 @@ public class ProjectTests {
 		assertEquals(true, family.getChildren().contains(family.getHusbandId()));
 	}
 	public static boolean birthBeforeDeathOfparents(Individual child,Individual father,Individual mother){
+		if(father.getDeath().equals("N/A") &&  mother.getDeath().equals("N/A")){
+			return true;
+		}
+		else
 		if(!father.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), father.getDeath())){
 			return true;
 		}else if(!mother.getDeath().equals("N/A") && DateComparison.beforeDate(child.getBirthday(), mother.getDeath())){
@@ -194,7 +200,6 @@ public class ProjectTests {
 		Individual child = new Individual();
 		child.setBirthday("10 SEP 2007");
 		Individual father  = new Individual();
-		father.setDeath("22 OCT 2010");
 		Individual mother = new Individual();
 		assertEquals(true, birthBeforeDeathOfparents(child,father,mother));
 	}
@@ -259,22 +264,6 @@ public class ProjectTests {
 		kid6.setBirthday("10 SEP 2007");
 		Individual[] children = {kid1,kid2,kid3,kid4,kid5,kid6};
 		assertEquals(false, multiPleBirthLessThan5(children));	
-	}
-	
-	
-		
-	@Test
-	public void testPassLessThenOneFiveZero() {
-		Individual person = new Individual();
-		person.setAge(90);
-		assertEquals(true, ReportingTool.lessThenOneFiveZero(person));
-	}
-	
-	@Test
-	public void testFailLessThenOneFiveZero() {
-		Individual person = new Individual();
-		person.setAge(180);
-		assertEquals(false, ReportingTool.lessThenOneFiveZero(person));
 	}
 
 }
