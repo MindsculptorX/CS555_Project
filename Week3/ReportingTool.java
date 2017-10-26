@@ -179,10 +179,14 @@ public class ReportingTool {
 	}
 
 	public static boolean birthBeforeDeath(Individual _individual) {
-		if(DateComparison.beforeDate(_individual.getBirthday(), _individual.getDeath())) {
-			return true;
-		} else {
+		if(_individual.getDeath().equalsIgnoreCase("N/A")) {
 			return false;
+		} else {
+			if(DateComparison.beforeDate(_individual.getBirthday(), _individual.getDeath())) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 	
