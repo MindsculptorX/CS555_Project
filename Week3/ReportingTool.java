@@ -7,21 +7,23 @@ import java.util.Map;
 public class ReportingTool {
 	 //we put every function here
     //every user story
-    public static String divorceBeforeDeath(Family fam,Individual Wife,Individual Husband){
+    public static String divorceBeforeDeath(Family fam){
 		//return N/A for no error
 		//return N/AHusband for husband died before divorce
 		//return N/AWife    for wife    died before divorce
 		//return N/AHusbandWife for both died before divorce
 		String ans = "N/A";
+		Individual husband = getIndiById(fam.getHusbandId());
+		Individual wife = getIndiById(fam.getWifeId());
 		if(fam.getDivorced().equals("N/A")){
 			return ans;//It means make sense
 		}
-		if(!Husband.isAlive()){
-			if(DateComparison.beforeDate(fam.getDivorced(),Husband.getDeath())){
+		if(!husband.isAlive()){
+			if(DateComparison.beforeDate(fam.getDivorced(),husband.getDeath())){
 				ans +="Husband";
 			}
 		}
-		if(!Wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),Wife.getDeath())){
+		if(!wife.isAlive() && DateComparison.beforeDate(fam.getDivorced(),wife.getDeath())){
 			ans += "Wife";
 		}
 		return ans;
@@ -259,7 +261,7 @@ public class ReportingTool {
 				System.out.println("ERROR: FAMILY: " + fam.getId() + " Divorce " + fam.getDivorced() + " before married " + fam.getMarried());
 			}
 //			if(!divorceBeforeDeath(fam,wife,husband).equals("N/A")){
-				System.out.println("Error in "+ ReportingTool.divorceBeforeDeath(fam,wife,husband));
+				System.out.println("Error in "+ ReportingTool.divorceBeforeDeath(fam));
 //			}
 //NEED TO DO
 		}
