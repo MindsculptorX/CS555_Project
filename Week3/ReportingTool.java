@@ -27,7 +27,10 @@ public class ReportingTool {
 		return ans;
 	}
 
-	public static boolean BirthBeforeMarriageOfParents(Individual indi,Family fam){
+	public static boolean BirthBeforeMarriageOfParents(Individual indi){
+		if(!indi.getFamcId().equals("N/A")){
+			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
+			Family fam = ParseGEDCOMFile.famList.get(familyId);
 		if(DateComparison.beforeDate(fam.getMarried(),indi.getBirthday())){
 			long birthAfterMarried = DateComparison.differentValueDate(fam.getMarried(), indi.getBirthday());
 			if(birthAfterMarried >=270){
@@ -35,6 +38,9 @@ public class ReportingTool {
 			}else{
 			return false;
 			}
+		}else{
+			return false;
+		}
 		}else{
 			return false;
 		}
@@ -82,65 +88,50 @@ public class ReportingTool {
 	}
 
 	public static boolean MarriageToDescendants(Individual _individual) {
-		if(_individual.getFamsId().equalsIgnoreCase("N/A")) {
-			return false;
+		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+		ArrayList<String> children = ParseGEDCOMFile.famList.get(spouseFamily).getChildren();
+		String spouse = "";
+
+		if(_individual.getGender().equalsIgnoreCase("M")) {
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
+		} else if (_individual.getGender().equalsIgnoreCase("F")) {
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
+		}
+
+		if (children.contains(spouse)) {
+			return true;
 		} else {
-			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
-			ArrayList<String> children = ParseGEDCOMFile.famList.get(spouseFamily).getChildren();
-			String spouse = "";
-
-			if(_individual.getGender().equalsIgnoreCase("M")) {
-				spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
-			} else if (_individual.getGender().equalsIgnoreCase("F")) {
-				spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
-			}
-
-			if (children.contains(spouse)) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
-		}
-		
+	}
 
 	public static boolean MarriageToSiblings(Individual _individual) {
-		if(_individual.getFamcId().equalsIgnoreCase("N/A")) {
-			return false;
-		} else {
-			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
-			int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
-			ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
-			String spouse = "";
+		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+		int childOfFamily = Integer.parseInt(_individual.getFamcId().substring(1));
+		ArrayList<String> siblings = ParseGEDCOMFile.famList.get(childOfFamily).getChildren();
+		String spouse = "";
 
-			if(_individual.getGender().equalsIgnoreCase("M")) {
-				spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
-			} else if (_individual.getGender().equalsIgnoreCase("F")) {
-			  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
-			}
-
-			if (siblings.contains(spouse)) {
-				return true;
-			} else {
-				return false;
-			}
+		if(_individual.getGender().equalsIgnoreCase("M")) {
+			spouse = ParseGEDCOMFile.famList.get(spouseFamily).getWifeId();
+		} else if (_individual.getGender().equalsIgnoreCase("F")) {
+		  spouse = ParseGEDCOMFile.famList.get(spouseFamily).getHusbandId();
 		}
-		
+
+		if (siblings.contains(spouse)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public static boolean birthBeforeMarriage(Individual _individual) {
-		if(_individual.getFamsId().equalsIgnoreCase("N/A")) {
-			return false;
+		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
+		String dateMarried = ParseGEDCOMFile.famList.get(spouseFamily).getMarried();
+		if(DateComparison.beforeDate(_individual.getBirthday(), dateMarried)) {
+			return true;
 		} else {
-			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
-			String dateMarried = ParseGEDCOMFile.famList.get(spouseFamily).getMarried();
-			if(DateComparison.beforeDate(_individual.getBirthday(), dateMarried)) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
-		
 	}
 
 	public static boolean birthBeforeDeath(Individual _individual) {
