@@ -2,39 +2,59 @@ Individuals
   ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse 
 ====== ================== ======== ============ ===== ======= ============ ========= =========
   I1     Shawn /Bean/        M      1994-07-30   23    True       N/A         F1        N/A   
-  I2     Irvin /Bean/        M      1968-05-5    49    True       N/A         F2        F1    
-  I3     Ada /Carter/        F      1970-11-8    47    True       N/A         F3        F1    
-  I4     Michel /Carter/     M      1942-01-4    75    True       N/A         N/A       F3    
+  I2     Irvin /Bean/        M      1968-05-05   49    True       N/A         F2        F1    
+  I3     Ada /Carter/        F      1773-05-05   244   True       N/A         F3        F1    
+  I4     Michel /Carter/     M      1942-01-04   75    True       N/A         N/A       F3    
   I5     Wanda /Field/       F      1945-07-31   72    True       N/A         N/A       F3    
   I6     Lance /Bean/        M      2021-10-10   -2    False   2019-10-15     N/A       F2    
-  I7     Helen /Arther/      F      1746-09-18   270   False   2016-03-7      N/A       F2    
-  I8     Cole /Carter/       M      1973-05-3    12    False   1985-08-7      F3        F5    
+  I7     Helen /Arther/      F      1746-09-18   270   False   2016-03-07     N/A       F2    
+  I8     Cole /Carter/       M      1773-05-08   212   False   1985-08-07     F3        F5    
   I9     Rena /Sharp/        F      1976-12-24   41    True       N/A         N/A       F6    
   I10    Paul /Carter/       M      1993-02-28   24    True       N/A         F5        N/A   
   I11    May /Edith/         F      1975-04-14   42    True       N/A         N/A       F4    
-  I12    Patty /Carter/      F      2018-06-3    -1    True       N/A         F4        N/A   
-  I13    Bald /Michael/      M      1975-08-5    42    True       N/A         N/A       F6    
+  I12    Patty /Carter/      F      2018-06-03   -1    True       N/A         F4        N/A   
+  I13    Bald /Michael/      M      1975-08-05   42    True       N/A         N/A       F6    
   I14    Lori /Michael/      F      1998-09-17   19    True       N/A         F6        N/A   
 ====== ================== ======== ============ ===== ======= ============ ========= =========
 
 Families
   ID     Married      Divorced    Husband ID     Husband Name     Wife ID      Wife Name          Children    
 ====== ============ ============ ============ ================== ========= ================== ================
-  F1    1992-03-04      N/A          I2        Irvin /Bean/         I3       Ada /Carter/        [I1]         
+  F1    1975-03-04      N/A          I2        Irvin /Bean/         I3       Ada /Carter/        [I1]         
   F2    1965-05-03      N/A          I6        Lance /Bean/         I7       Helen /Arther/      [I2]         
   F3    1967-08-08      N/A          I4        Michel /Carter/      I5       Wanda /Field/       [I3, I8]     
   F4    1999-08-06      N/A          I8        Cole /Carter/        I11      May /Edith/         [I12]        
-  F5    2019-06-21   2018-12-31      I8        Cole /Carter/        I9       Rena /Sharp/        [I10]        
+  F5    2019-06-21   2020-12-31      I8        Cole /Carter/        I9       Rena /Sharp/        [I10]        
   F6    2005-01-01      N/A          I13       Bald /Michael/       I9       Rena /Sharp/        [I14]        
 ====== ============ ============ ============ ================== ========= ================== ================
 
-Errors
-ERROR: INDIVIDUAL: I6 Birthday 2021-10-10 occurs in the future
-ERROR: INDIVIDUAL: I6 Death 2019-10-15 occurs in the future
-ERROR: INDIVIDUAL: I7 More than 150 years old, Birth date 1746-09-18
-ERROR: INDIVIDUAL: I7 More than 150 years old at death, Birth 1746-09-18, Death 2016-03-7
-ERROR: INDIVIDUAL: I12 Birthday 2018-06-3 occurs in the future
-ERROR: FAMILY: F5 Divorce 2018-12-31 before married 2019-06-21
-ERROR: FAMILY: F5 Marriage date 2019-06-21 occurs in the future
-ERROR: FAMILY: F5 Divorced date 2018-12-31 occurs in the future
-
+ERROR: INDIVIDUAL: I1 Shawn /Bean/ birth before death of parents.
+ERROR: INDIVIDUAL: I2 Irvin /Bean/ got married before 14 years old.
+ERROR: INDIVIDUAL: I2 Irvin /Bean/ birth after marriage. birthday: 1968-05-05
+ERROR: INDIVIDUAL: I2 Irvin /Bean/ birth before death of parents.
+ERROR: INDIVIDUAL: I3 Ada /Carter/ is more than 150 years old.
+ERROR: INDIVIDUAL: I3 Ada /Carter/ birth after marriage. birthday: 1773-05-05
+ERROR: INDIVIDUAL: I3 Ada /Carter/ birth before death of parents.
+ERROR: INDIVIDUAL: I4 Michel /Carter/ birth after marriage. birthday: 1942-01-04
+ERROR: INDIVIDUAL: I4 Michel /Carter/ birth before death of parents.
+ERROR: INDIVIDUAL: I5 Wanda /Field/ birth after marriage. birthday: 1945-07-31
+ERROR: INDIVIDUAL: I5 Wanda /Field/ birth before death of parents.
+ERROR: INDIVIDUAL: I6 Lance /Bean/ birth before death of parents.
+ERROR: INDIVIDUAL: I7 Helen /Arther/ is more than 150 years old.
+ERROR: INDIVIDUAL: I7 Helen /Arther/ birth after marriage. birthday: 1746-09-18
+ERROR: INDIVIDUAL: I7 Helen /Arther/ birth after death.
+ERROR: INDIVIDUAL: I7 Helen /Arther/ birth before death of parents.
+ERROR: INDIVIDUAL: I8 Cole /Carter/ is more than 150 years old.
+ERROR: INDIVIDUAL: I8 Cole /Carter/ has the problem of sibling spacing.
+ERROR: INDIVIDUAL: I8 Cole /Carter/ birth after marriage. birthday: 1773-05-08
+ERROR: INDIVIDUAL: I8 Cole /Carter/ birth after death.
+ERROR: INDIVIDUAL: I8 Cole /Carter/ birth before death of parents.
+ERROR: INDIVIDUAL: I9 Rena /Sharp/ birth after marriage. birthday: 1976-12-24
+ERROR: INDIVIDUAL: I9 Rena /Sharp/ birth before death of parents.
+ERROR: INDIVIDUAL: I10 Paul /Carter/ birth after death of parents.
+ERROR: INDIVIDUAL: I11 May /Edith/ birth after marriage. birthday: 1975-04-14
+ERROR: INDIVIDUAL: I11 May /Edith/ birth before death of parents.
+ERROR: INDIVIDUAL: I12 Patty /Carter/ birth after death of parents.
+ERROR: INDIVIDUAL: I13 Bald /Michael/ birth after marriage. birthday: 1975-08-05
+ERROR: INDIVIDUAL: I13 Bald /Michael/ birth before death of parents.
+ERROR: INDIVIDUAL: I14 Lori /Michael/ birth before death of parents.
