@@ -124,7 +124,7 @@ public class ReportingTool {
 	}
 
 	public static boolean MarriageToDescendants(Individual _individual) {
-		if(_individual.getFamsId().equalsIgnoreCase("N/A")) {
+		if(_individual.getFamsId().equalsIgnoreCase("N/A") || _individual.getFamcId().equalsIgnoreCase("N/A")) {
 			return false;
 		} else {
 			int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
@@ -169,6 +169,9 @@ public class ReportingTool {
 	}
 
 	public static boolean birthBeforeMarriage(Individual _individual) {
+		if(_individual.getFamsId().equalsIgnoreCase("N/A")) {
+			return false;
+		}
 		int spouseFamily = Integer.parseInt(_individual.getFamsId().substring(1));
 		String dateMarried = ParseGEDCOMFile.famList.get(spouseFamily).getMarried();
 		if(DateComparison.beforeDate(_individual.getBirthday(), dateMarried)) {
@@ -267,7 +270,18 @@ public class ReportingTool {
 	for(int i = 0;i< 1000;i++){
 		if(famList.containsKey(i)){
 			Family fam = famList.get(i);
-			
+			if (!divorceBeforeDeath(fam).equals("N/A")) {
+				if (divorceBeforeDeath(fam).equals("Husband")) {
+					System.out.println("ERROR: INDIVIDUAL: " + fam.getHusbandId() + " " + fam.getHusbandName() + " divorce before death.");
+				} else if (divorceBeforeDeath(fam).equals("Wife")) {
+					System.out.println("ERROR: INDIVIDUAL: " + fam.getWifeId() + " " + fam.getWifeName() + " divorce before death.");
+				} else {
+					System.out.println("ERROR: INDIVIDUAL: " + fam.getHusbandId() + " " + fam.getHusbandName() + " and " + fam.getWifeId() + " " + fam.getWifeName() + " divorce before death.");
+				}
+			}
+			if (!MaleLastNames(fam)) {
+				System.out.println("ERROR: INDIVIDUAL: " + fam.getHusbandId() + " " + fam.getHusbandName() + " has the different name.");
+			}
 		}
 	}
 	
