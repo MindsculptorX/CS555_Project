@@ -1,12 +1,17 @@
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.Test;
 
 public class XiSprintTwoTest {
 	
-//	@Test
+	@Test
 	public void testMaleLastNames() {
+		ParseGEDCOMFile.setMap();
+		
 		Family fam1 = new Family();
 		Family fam2 = new Family();
 		
@@ -19,23 +24,24 @@ public class XiSprintTwoTest {
 		child2.setName("Irvin /Other/");
 		child1.setGender("M");
 		child2.setGender("M");
+
+		ParseGEDCOMFile.indiList.put(20001, child1);
+		ParseGEDCOMFile.indiList.put(20002, child2);
 		
-		System.out.println(ParseGEDCOMFile.indiList.hashCode());
-		ParseGEDCOMFile.indiList.put(20001, null);
-		ParseGEDCOMFile.indiList.put(20002, null);
-		
-		fam1.getChildren().add("I20001");
-		fam2.getChildren().add("I20002");
-//		System.out.println(ReportingTool.MaleLastNames(fam1));
-//		System.out.println(ReportingTool.MaleLastNames(fam2));
-//		
+		fam1.setChildren(new ArrayList<String>(Arrays.asList("I20001")));
+		fam2.setChildren(new ArrayList<String>(Arrays.asList("I20002")));
+
+//		fam1.getChildren().add("I20001");//This is wrong
+//		fam2.getChildren().add("I20002");
+
 		assertEquals(true, ReportingTool.MaleLastNames(fam1));
 		assertEquals(false, ReportingTool.MaleLastNames(fam2));
 
 	}
 
-//	@Test
+	@Test
 	public void testParentsNotTooOld() {
+		ParseGEDCOMFile.setMap();
 		Individual father1 = new Individual();
 		Individual father2 = new Individual();
 		Individual mother1 = new Individual();
@@ -74,19 +80,10 @@ public class XiSprintTwoTest {
 		fam3.setWifeId("I20005");
 		fam4.setWifeId("I20006");
 
-		// System.out.println(ReportingTool.ParentsNotTooOld(fam1));
-		// System.out.println(ReportingTool.ParentsNotTooOld(fam2));
-		// System.out.println(ReportingTool.ParentsNotTooOld(fam3));
-		// System.out.println(ReportingTool.ParentsNotTooOld(fam4));
-
 		assertEquals(false, ReportingTool.ParentsNotTooOld(fam1));
 		assertEquals(true, ReportingTool.ParentsNotTooOld(fam2));
 		assertEquals(false, ReportingTool.ParentsNotTooOld(fam3));
 		assertEquals(false, ReportingTool.ParentsNotTooOld(fam4));
 	}
 	
-	@Test
-	public void testTest() {
-		assertEquals(true, true);
-	}
 }

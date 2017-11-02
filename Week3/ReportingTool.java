@@ -41,7 +41,9 @@ public class ReportingTool {
 			if (child.getGender().equals("M")) {
 				String fatherLastName = fam.getHusbandName().split(" ")[1];
 				String sonLastName = child.getName().split(" ")[1];
-				return fatherLastName.equals(sonLastName);
+				if(!fatherLastName.equals(sonLastName)){
+					return false;
+				}
 			}
 		}
 		return true;
