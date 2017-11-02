@@ -8,10 +8,7 @@ public class ReportingTool {
 	 //we put every function here
     //every user story
     public static String divorceBeforeDeath(Family fam){
-		//return N/A for no error
-		//return N/AHusband for husband died before divorce
-		//return N/AWife    for wife    died before divorce
-		//return N/AHusbandWife for both died before divorce
+		//return N/A for no error; N/A... for ... error
 		String ans = "N/A";
 		Individual husband = getIndiById(fam.getHusbandId());
 		Individual wife = getIndiById(fam.getWifeId());
@@ -50,9 +47,6 @@ public class ReportingTool {
 	}
 
 	public static boolean ParentsNotTooOld(Family fam) {
-		// Individual father = getIndiById(fam.getHusbandId());
-		// Individual mother = getIndiById(fam.getWifeId());
-		// Integer.parseInt(indi.getBirthday().substring(0, 4));
 		int fatherBirth = Integer.parseInt(getIndiById(fam.getHusbandId()).getBirthday().substring(0, 4));
 		int motherBirth = Integer.parseInt(getIndiById(fam.getWifeId()).getBirthday().substring(0, 4));
 		for (int i = 0; i < fam.getChildren().size(); i++) {
