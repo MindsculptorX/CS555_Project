@@ -86,4 +86,53 @@ public class XiSprintTwoTest {
 		assertEquals(false, ReportingTool.ParentsNotTooOld(fam4));
 	}
 	
+	
+	@Test
+	public void testLeo_lessThen150() {
+		Individual indi1 = new Individual();
+		Individual indi2 = new Individual();
+		Individual indi3 = new Individual();
+		Individual indi4 = new Individual();
+
+		indi1.setAge(100);
+		indi2.setAge(200);
+		indi3.setAge(150);
+		indi4.setAge(0);
+		
+		assertEquals(true, ReportingTool.LEO_lessThen150(indi1));
+		assertEquals(false, ReportingTool.LEO_lessThen150(indi2));
+		assertEquals(false, ReportingTool.LEO_lessThen150(indi3));
+		assertEquals(true, ReportingTool.LEO_lessThen150(indi4));
+	}
+	
+	
+	
+	
+	public void testLeo_birthBeforeDeath() {
+		ParseGEDCOMFile.setMap();
+		Individual indi1 = new Individual();
+		Individual indi2 = new Individual();
+		Individual indi3 = new Individual();
+		Individual indi4 = new Individual();
+		
+		indi1.setBirthday("01 Jan 1960");
+		indi2.setBirthday("01 Jan 1970");
+		indi3.setBirthday("01 Jan 1980");
+		indi4.setBirthday("01 Jan 1990");
+		
+		indi2.setDeath("01 Jan 1980");
+		indi3.setDeath("01 Jan 1970");
+		indi4.setDeath("01 Jan 1990");
+		
+		ParseGEDCOMFile.indiList.put(30001, indi1);
+		ParseGEDCOMFile.indiList.put(30002, indi2);
+		ParseGEDCOMFile.indiList.put(30003, indi3);
+		ParseGEDCOMFile.indiList.put(30004, indi4);
+		
+		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi1));
+		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi2));
+		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi3));
+		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi4));
+	}
+	
 }

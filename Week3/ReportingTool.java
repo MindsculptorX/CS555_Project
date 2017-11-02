@@ -236,7 +236,27 @@ public class ReportingTool {
     	return true;
     }
     }
-
+    
+	public static boolean LEO_lessThen150 (Individual _individual) {
+		int age = _individual.getAge();
+		if(age<150)
+			return true;
+		else 
+			return false;
+	}
+	public static boolean Leo_birthBeforeDeath(Individual _individual) {
+		if(_individual.getDeath().equals("N/A")) {
+			return true;
+		}
+		int dy = DateComparison.getYearFromDataStr(_individual.getDeath());
+		int dm = DateComparison.getMonthFromDataStr(_individual.getDeath());
+		int dd = DateComparison.getDayFromDataStr(_individual.getDeath());
+		int by = DateComparison.getYearFromDataStr(_individual.getBirthday());
+		int bm = DateComparison.getMonthFromDataStr(_individual.getBirthday());
+		int bd = DateComparison.getDayFromDataStr(_individual.getBirthday());
+		if(dy<by || (dy==by && dm<bm) || (dy==by && dm==bm && dd<bd)){return false;}
+		return true;
+	}
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
