@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ReportingTool {
@@ -57,8 +58,18 @@ public class ReportingTool {
 		}
 		return true;
 	}
-
-    
+	//↓here is Xi's sprint3 code
+	public static boolean UniqueFirstNameInFamily(Family fam){//No more than one child with the same name and birth date should appear in a family
+		HashSet<String> name_birth_Set = new HashSet<String>();
+		for (int i = 0; i < fam.getChildren().size(); i++) {
+			Individual child = getIndiById(fam.getChildren().get(i));
+			String name_birth = child.getName() + '&' + child.getBirthday();
+			if(name_birth_Set.contains(name_birth)){return false;}
+			else{name_birth_Set.add(name_birth);}
+		}
+		return true;
+	}
+	
 	public static boolean BirthBeforeMarriageOfParents(Individual indi){
 		if(!indi.getFamcId().equals("N/A")){
 			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
