@@ -69,7 +69,17 @@ public class ReportingTool {
 		}
 		return true;
 	}
-	
+	public static ArrayList<Individual> ListDeceased(){
+		ArrayList<Individual> DeadList = new ArrayList<Individual>();
+		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+			if(!indi.getDeath().equals("N/A")){
+				DeadList.add(indi);
+			}
+		}
+		return DeadList;
+	}
+	//here is Xi's sprint4 code
+	//...
 	public static boolean BirthBeforeMarriageOfParents(Individual indi){
 		if(!indi.getFamcId().equals("N/A")){
 			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
