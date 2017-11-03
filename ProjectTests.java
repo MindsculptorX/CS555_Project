@@ -316,4 +316,34 @@ public class ProjectTests {
 		assertEquals(false, ReportingTool.SiblingsSpacing(sibling2));
 
 	}
+	
+	@Test
+	public void testPassMarriageBeforeFourteen() {
+		ParseGEDCOMFile.setMap();
+		Individual indi = new Individual();
+		indi.setId("N60001");
+		indi.setFamsId("F50001");
+		indi.setBirthday("12 DEC 1995");
+		Family fam = new Family();
+		fam.setMarried("12 DEC 2000");
+		fam.setHusbandId("N60001");
+		ParseGEDCOMFile.famList.put(50001, fam);
+		
+		assertEquals(true, ReportingTool.MarriageBeforeFourteen(indi));
+	}
+	
+	@Test
+	public void testFailMarriageBeforeFourteen() {
+		ParseGEDCOMFile.setMap();
+		Individual indi = new Individual();
+		indi.setId("N60001");
+		indi.setFamsId("F50001");
+		indi.setBirthday("12 DEC 1975");
+		Family fam = new Family();
+		fam.setMarried("12 DEC 2000");
+		fam.setHusbandId("N60001");
+		ParseGEDCOMFile.famList.put(50001, fam);
+		
+		assertEquals(false, ReportingTool.MarriageBeforeFourteen(indi));
+	}
 }
