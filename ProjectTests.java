@@ -266,4 +266,54 @@ public class ProjectTests {
 		assertEquals(false, multiPleBirthLessThan5(children));	
 	}
 
+	@Test
+	public void testPassSiblingsSpacing() {
+		ParseGEDCOMFile.setMap();
+		Individual sibling1 = new Individual();
+		Individual sibling2 = new Individual();
+		sibling1.setId("N60001");
+		sibling1.setBirthday("12 DEC 2000");
+		sibling1.setFamcId("F50001");
+		
+		sibling2.setId("N60002");
+		sibling2.setBirthday("20 DEC 2000");
+		sibling2.setFamcId("F50001");
+		Family family = new Family("F50001", "12 DEC 1988", "N60003", "N60004");
+		ArrayList<String> children = new ArrayList<String>();
+		String[] kids = {"N60001", "N60002"};
+		children.addAll(Arrays.asList(kids));
+		family.setChildren(children);
+
+		ParseGEDCOMFile.famList.put(50001, family);
+		ParseGEDCOMFile.indiList.put(60001, sibling1);
+		ParseGEDCOMFile.indiList.put(60002, sibling2);
+		
+		assertEquals(true, ReportingTool.SiblingsSpacing(sibling2));
+
+	}
+	@Test
+	public void testFailSiblingsSpacing() {
+		ParseGEDCOMFile.setMap();
+		Individual sibling1 = new Individual();
+		Individual sibling2 = new Individual();
+		sibling1.setId("N60001");
+		sibling1.setBirthday("12 DEC 2000");
+		sibling1.setFamcId("F50001");
+		
+		sibling2.setId("N60002");
+		sibling2.setBirthday("12 DEC 2000");
+		sibling2.setFamcId("F50001");
+		Family family = new Family("F50001", "12 DEC 1988", "N60003", "N60004");
+		ArrayList<String> children = new ArrayList<String>();
+		String[] kids = {"N60001", "N60002"};
+		children.addAll(Arrays.asList(kids));
+		family.setChildren(children);
+
+		ParseGEDCOMFile.famList.put(50001, family);
+		ParseGEDCOMFile.indiList.put(60001, sibling1);
+		ParseGEDCOMFile.indiList.put(60002, sibling2);
+		
+		assertEquals(false, ReportingTool.SiblingsSpacing(sibling2));
+
+	}
 }
