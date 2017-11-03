@@ -2,16 +2,14 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ReportingTool {
 	 //we put every function here
     //every user story
     public static String divorceBeforeDeath(Family fam){
-		//return N/A for no error
-		//return N/AHusband for husband died before divorce
-		//return N/AWife    for wife    died before divorce
-		//return N/AHusbandWife for both died before divorce
+		//return N/A for no error; N/A... for ... error
 		String ans = "N/A";
 		Individual husband = getIndiById(fam.getHusbandId());
 		Individual wife = getIndiById(fam.getWifeId());
@@ -41,28 +39,47 @@ public class ReportingTool {
 			if (child.getGender().equals("M")) {
 				String fatherLastName = fam.getHusbandName().split(" ")[1];
 				String sonLastName = child.getName().split(" ")[1];
-				return fatherLastName.equals(sonLastName);
+				if(!fatherLastName.equals(sonLastName)){
+					return false;
+				}
 			}
 		}
 		return true;
 	}
 
 	public static boolean ParentsNotTooOld(Family fam) {
-		// Individual father = getIndiById(fam.getHusbandId());
-		// Individual mother = getIndiById(fam.getWifeId());
-		// Integer.parseInt(indi.getBirthday().substring(0, 4));
 		int fatherBirth = Integer.parseInt(getIndiById(fam.getHusbandId()).getBirthday().substring(0, 4));
 		int motherBirth = Integer.parseInt(getIndiById(fam.getWifeId()).getBirthday().substring(0, 4));
 		for (int i = 0; i < fam.getChildren().size(); i++) {
 			int chlidBirth = Integer.parseInt(getIndiById(fam.getChildren().get(i)).getBirthday().substring(0, 4));
-			if ((chlidBirth + 60 < motherBirth) || (chlidBirth + 80 < fatherBirth)) {
+			if ((chlidBirth > motherBirth + 60) || (chlidBirth > fatherBirth + 80)) {
 				return false;
 			}
 		}
 		return true;
 	}
-
-    
+	//↓here is Xi's sprint3 code
+	public static boolean UniqueFirstNameInFamily(Family fam){//No more than one child with the same name and birth date should appear in a family
+		HashSet<String> name_birth_Set = new HashSet<String>();
+		for (int i = 0; i < fam.getChildren().size(); i++) {
+			Individual child = getIndiById(fam.getChildren().get(i));
+			String name_birth = child.getName() + '&' + child.getBirthday();
+			if(name_birth_Set.contains(name_birth)){return false;}
+			else{name_birth_Set.add(name_birth);}
+		}
+		return true;
+	}
+	public static ArrayList<Individual> ListDeceased(){
+		ArrayList<Individual> DeadList = new ArrayList<Individual>();
+		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+			if(!indi.getDeath().equals("N/A")){
+				DeadList.add(indi);
+			}
+		}
+		return DeadList;
+	}
+	//here is Xi's sprint4 code
+	//...
 	public static boolean BirthBeforeMarriageOfParents(Individual indi){
 		if(!indi.getFamcId().equals("N/A")){
 			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
@@ -240,7 +257,27 @@ public class ReportingTool {
     	return true;
     }
     }
-
+    
+	public static boolean LEO_lessThen150 (Individual _individual) {
+		int age = _individual.getAge();
+		if(age<150)
+			return true;
+		else 
+			return false;
+	}
+	public static boolean Leo_birthBeforeDeath(Individual _individual) {
+		if(_individual.getDeath().equals("N/A")) {
+			return true;
+		}
+		int dy = DateComparison.getYearFromDataStr(_individual.getDeath());
+		int dm = DateComparison.getMonthFromDataStr(_individual.getDeath());
+		int dd = DateComparison.getDayFromDataStr(_individual.getDeath());
+		int by = DateComparison.getYearFromDataStr(_individual.getBirthday());
+		int bm = DateComparison.getMonthFromDataStr(_individual.getBirthday());
+		int bd = DateComparison.getDayFromDataStr(_individual.getBirthday());
+		if(dy<by || (dy==by && dm<bm) || (dy==by && dm==bm && dd<bd)){return false;}
+		return true;
+	}
     public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");

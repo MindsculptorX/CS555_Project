@@ -37,7 +37,8 @@ public class DateComparison {
 	public static boolean beforeDate (String _date1, String _date2) {
 		Date date1 = parse(_date1, formatDate);
 		Date date2 = parse(_date2, formatDate);
-
+		
+		
 		if (date1.before(date2)) {
 			return true;
 		} else {
@@ -68,6 +69,12 @@ public class DateComparison {
 	
 	public static int getYearFromDataStr(String date){
 		return Integer.parseInt(date.split("-")[0]);
+	}
+	public static int getMonthFromDataStr(String date){
+		return Integer.parseInt(date.split("-")[1]);
+	}
+	public static int getDayFromDataStr(String date){
+		return Integer.parseInt(date.split("-")[2]);
 	}
 
 }
