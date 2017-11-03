@@ -107,7 +107,7 @@ public class XiSprintTwoTest {
 	
 	
 	
-	
+	@Test
 	public void testLeo_birthBeforeDeath() {
 		ParseGEDCOMFile.setMap();
 		Individual indi1 = new Individual();
@@ -115,14 +115,14 @@ public class XiSprintTwoTest {
 		Individual indi3 = new Individual();
 		Individual indi4 = new Individual();
 		
-		indi1.setBirthday("01 Jan 1960");
-		indi2.setBirthday("01 Jan 1970");
-		indi3.setBirthday("01 Jan 1980");
-		indi4.setBirthday("01 Jan 1990");
+		indi1.setBirthday("01 JAN 1960");
+		indi2.setBirthday("01 JAN 1970");
+		indi3.setBirthday("01 JAN 1990");
+		indi4.setBirthday("01 JAN 1990");
 		
-		indi2.setDeath("01 Jan 1980");
-		indi3.setDeath("01 Jan 1970");
-		indi4.setDeath("01 Jan 1990");
+		indi2.setDeath("01 JAN 1970");
+		indi3.setDeath("01 JAN 2000");
+		indi4.setDeath("01 JAN 1900");
 		
 		ParseGEDCOMFile.indiList.put(30001, indi1);
 		ParseGEDCOMFile.indiList.put(30002, indi2);
@@ -132,7 +132,7 @@ public class XiSprintTwoTest {
 		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi1));
 		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi2));
 		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi3));
-		assertEquals(true, ReportingTool.Leo_birthBeforeDeath(indi4));
+		assertEquals(false, ReportingTool.Leo_birthBeforeDeath(indi4));
 	}
 	
 }
