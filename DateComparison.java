@@ -76,5 +76,17 @@ public class DateComparison {
 	public static int getDayFromDataStr(String date){
 		return Integer.parseInt(date.split("-")[2]);
 	}
+	
+	public static String getTodayDate(){
+		return "2017-11-04";
+	}
+	public static int getDateGap(String date1,String date2){
+		//1990-01-01  -->1990-01-10  //return 9
+		int ans = 0;
+		ans += (getYearFromDataStr(date2) - getYearFromDataStr(date1)) * 365;
+		ans += (getMonthFromDataStr(date2) - getMonthFromDataStr(date1)) * 30;
+		ans += (getDayFromDataStr(date2) - getDayFromDataStr(date1));
+		return ans;
+	}
 
 }

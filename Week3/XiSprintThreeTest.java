@@ -9,7 +9,7 @@ import org.junit.Test;
 public class XiSprintThreeTest {
 	
 	
-	@Test
+//	@Test
 	public void testPrint(){ 
 		String date = "01 SEP 2017";
 		String fdate = Individual.transDate(date);
@@ -175,7 +175,43 @@ public class XiSprintThreeTest {
 		assertEquals(true,ReportingTool.MarriageBeforeDeath(fam1));
 		assertEquals(false,ReportingTool.MarriageBeforeDeath(fam2));
 		assertEquals(true,ReportingTool.MarriageBeforeDeath(fam3));
+	
 		
+	}
+	
+	@Test
+	public void testList(){
+		ParseGEDCOMFile.setMap();
+		ParseGEDCOMFile.indiList.clear();
+		ParseGEDCOMFile.famList.clear();
 		
+		Individual indi1 = new Individual();
+		Individual indi2 = new Individual();
+		Individual indi3 = new Individual();
+		Individual indi4 = new Individual();
+		
+
+		indi1.setId("I30001");
+		indi2.setId("I30002");
+		indi3.setId("I30003");
+		indi4.setId("I30004");
+		
+		indi1.setBirthday("01 NOV 2017");
+		indi2.setBirthday("01 NOV 2016");
+		indi3.setBirthday("01 JAN 1990");
+		indi4.setBirthday("01 JAN 1990");
+		
+		indi1.setDeath("03 NOV 2003");
+		indi2.setDeath("03 OCT 2017");
+		indi3.setDeath("10 OCT 2017");
+		indi4.setDeath("03 NOV 2017");
+		
+		ParseGEDCOMFile.indiList.put(30001, indi1);
+		ParseGEDCOMFile.indiList.put(30002, indi2);
+		ParseGEDCOMFile.indiList.put(30003, indi3);
+		ParseGEDCOMFile.indiList.put(30004, indi4);
+
+		System.out.println(ReportingTool.listRecentBirths());
+		System.out.println(ReportingTool.listRecentDeaths());
 	}
 }

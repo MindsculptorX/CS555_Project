@@ -117,7 +117,25 @@ public class ReportingTool {
 		
 		return wrongIdList;
 	}
+	public static ArrayList<String> listRecentBirths(){ //return ID list
+		ArrayList<String> recentId = new ArrayList<String>();
+		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+			int gapD = DateComparison.getDateGap(indi.getBirthday(),DateComparison.getTodayDate());
+			if(gapD <= 30){recentId.add(indi.getId());}
+		}
+		return recentId;
+	}
+	public static ArrayList<String> listRecentDeaths(){ //return ID list
+		ArrayList<String> recentId = new ArrayList<String>();
+		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+			int gapD = DateComparison.getDateGap(indi.getDeath(),DateComparison.getTodayDate());
+			if(gapD <= 30){recentId.add(indi.getId());}
+		}
+		return recentId;
+	}
 	
+	
+	///
 	public static boolean BirthBeforeMarriageOfParents(Individual indi){
 		if(!indi.getFamcId().equals("N/A")){
 			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
