@@ -81,6 +81,19 @@ public class ReportingTool {
 	//here is Xi's sprint4 code
 	
 	//Leo Sprint3
+	public static boolean MarriageBeforeDeath(Family fam){
+		String MarriageDate = fam.getMarried();
+		if(!getIndiById(fam.getHusbandId()).isAlive()){
+			String husDeadDate = getIndiById(fam.getHusbandId()).getDeath();
+			if(DateComparison.beforeDate(husDeadDate,MarriageDate)){return false;}
+		}
+		if(!getIndiById(fam.getWifeId()).isAlive()){
+			String WifeDeadDate = getIndiById(fam.getWifeId()).getDeath();
+			if(DateComparison.beforeDate(WifeDeadDate,MarriageDate)){return false;}
+		}
+		return true;
+		
+	}
 	public static boolean CorrectGenderForMale(Family fam){
 		if(!getIndiById(fam.getHusbandId()).getGender().equals("M")){return false;}
 		if(!getIndiById(fam.getWifeId()).getGender().equals("F")){return false;}

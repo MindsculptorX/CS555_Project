@@ -127,4 +127,46 @@ public class XiSprintThreeTest {
 		
 	}
 	
+	
+	@Test
+	public void testMarriageBeforeDeath(){
+		ParseGEDCOMFile.setMap();
+		ParseGEDCOMFile.indiList.clear();
+		ParseGEDCOMFile.famList.clear();
+		
+		Family fam1 = new Family(); 
+		Family fam2 = new Family();
+		Family fam3 = new Family();
+		
+		fam1.setMarried("01 JAN 2000");
+		fam2.setMarried("01 JAN 2000");
+		fam3.setMarried("01 JAN 2000");
+		
+		Individual male1 = new Individual();
+		Individual female1 = new Individual();//live
+		Individual female2 = new Individual();//dead before
+		Individual female3 = new Individual();//dead after
+	
+		female2.setDeath("01 JAN 1990");
+		female3.setDeath("01 JAN 2010");
+		
+		ParseGEDCOMFile.indiList.put(20001, male1);
+		ParseGEDCOMFile.indiList.put(20002, female1);
+		ParseGEDCOMFile.indiList.put(20003, female2);
+		ParseGEDCOMFile.indiList.put(20004, female3);
+
+		fam1.setHusbandId("I20001");
+		fam2.setHusbandId("I20001");
+		fam3.setHusbandId("I20001");
+
+		fam1.setWifeId("I20002");
+		fam2.setWifeId("I20003");
+		fam3.setWifeId("I20004");
+		
+		assertEquals(true,ReportingTool.MarriageBeforeDeath(fam1));
+		assertEquals(false,ReportingTool.MarriageBeforeDeath(fam2));
+		assertEquals(true,ReportingTool.MarriageBeforeDeath(fam3));
+		
+		
+	}
 }
