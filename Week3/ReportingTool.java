@@ -79,7 +79,32 @@ public class ReportingTool {
 		return DeadList;
 	}
 	//here is Xi's sprint4 code
-	//...
+	
+	//Leo Sprint3
+	public static boolean CorrectGenderForMale(Family fam){
+		if(!getIndiById(fam.getHusbandId()).getGender().equals("M")){return false;}
+		if(!getIndiById(fam.getWifeId()).getGender().equals("F")){return false;}
+		return true;
+	}
+	
+	public static HashSet<String> UniqueId(){//return the repeat ID list
+		HashSet<String> wrongIdList = new HashSet<String>();
+		HashSet<String> IDSet = new HashSet<String>();
+		HashSet<String> indiIDSet = new HashSet<String>();
+		for(Family fam : ParseGEDCOMFile.famList.values()){
+			String ID = fam.getId();
+			if(IDSet.contains(ID)){wrongIdList.add(ID);}//Means already have this
+			else{IDSet.add(ID);}
+		}
+		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+			String ID = indi.getId();
+			if(IDSet.contains(ID)){wrongIdList.add(ID);}//Means already have this
+			else{IDSet.add(ID);}
+		}
+		
+		return wrongIdList;
+	}
+	
 	public static boolean BirthBeforeMarriageOfParents(Individual indi){
 		if(!indi.getFamcId().equals("N/A")){
 			int familyId = Integer.parseInt(indi.getFamcId().substring(1));
