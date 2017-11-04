@@ -9,7 +9,7 @@ public class DateComparison {
 	static SimpleDateFormat formatDate[] = new SimpleDateFormat[] {new SimpleDateFormat ("dd MMM yyyy"), new SimpleDateFormat ("yyyy-MM-dd")};
 	static Date today = calendar.getTime();
 
-	public static boolean beforeToday (String _date1) {
+	public boolean beforeToday (String _date1) {
 		Date date = parse(_date1, formatDate);
 
 		if (date.before(today)) {

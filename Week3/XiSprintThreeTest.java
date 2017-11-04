@@ -7,7 +7,16 @@ import java.util.HashSet;
 import org.junit.Test;
 
 public class XiSprintThreeTest {
-
+	
+	
+	@Test
+	public void testPrint(){ 
+		String date = "01 SEP 2017";
+		String fdate = Individual.transDate(date);
+		System.out.println(date);
+		System.out.println(fdate);
+	}
+	
 	@Test
 	public void testUniqueFirstNameInFamily() {
 		ParseGEDCOMFile.setMap();

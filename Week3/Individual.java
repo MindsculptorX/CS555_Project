@@ -95,12 +95,12 @@ public class Individual {
 			this.famsId = famsId;
 		}
 
-		public String transDate(String date){
+		public static String transDate(String date){
 			String split[] = date.split(" ");
 			String day = split[0];
 			int temp = Integer.parseInt(day);
 			if(temp<10){
-				day="0"+day;
+				day="0"+temp; ///Important debug!!!!---by Xi
 			}
 			String month=null;
 			if(split[1].equals("JAN")){
