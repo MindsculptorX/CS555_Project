@@ -32,6 +32,10 @@ public class ReportingTool {
 		ID = ID.substring(1);
 		return ParseGEDCOMFile.indiList.get(Integer.parseInt(ID));
 	}
+	public static Family getFamById(String ID){
+		ID = ID.substring(1);
+		return ParseGEDCOMFile.famList.get(Integer.parseInt(ID));
+	}
 
 	public static boolean MaleLastNames(Family fam) {// If indi is a MALE and don't share the name with the fami, return false.
 		for (int i = 0; i < fam.getChildren().size(); i++) {
@@ -131,6 +135,41 @@ public class ReportingTool {
 			int gapD = DateComparison.getDateGap(indi.getDeath(),DateComparison.getTodayDate());
 			if(gapD <= 30){recentId.add(indi.getId());}
 		}
+		return recentId;
+	}
+	
+	public static ArrayList<String> listRecentSurvivors(){ //return ID list
+		ArrayList<String> recentId = new ArrayList<String>();
+		HashSet<String> temp = new HashSet<String>();
+		
+		for(String deadRecentId : listRecentDeaths()){
+			Individual indi = getIndiById(deadRecentId);
+			if(getIndiById(indi.getFamsId()).isAlive()){
+				temp.add(indi.getFamsId());
+			}
+			for(String childId : getFamById(indi.getFamcId()).getChildren()){
+				if(getIndiById(childId).isAlive()){
+					temp.add(childId);
+				}
+			}
+		}
+		for(String str : temp){
+			recentId.add(str);
+		}
+		
+//		for(Family fam : ParseGEDCOMFile.famList.values()){
+//			if(!getIndiById(fam.getHusbandId()).isAlive() || !getIndiById(fam.getWifeId()).isAlive()){		//fm both dead
+//				recentId.addAll(fam.getChildren());
+//			}else if(!getIndiById(fam.getHusbandId()).isAlive()){		//fm both dead
+//				recentId.addAll(fam.getChildren());
+//				recentId.add(fam.getWifeId());
+//			}else if(!getIndiById(fam.getWifeId()).isAlive()){		//fm both dead
+//				recentId.addAll(fam.getChildren());
+//				recentId.add(fam.getHusbandId());
+//			}
+//			int gapD = DateComparison.getDateGap(indi.getDeath(),DateComparison.getTodayDate());
+//			if(gapD <= 30){recentId.add(indi.getId());}
+//		}
 		return recentId;
 	}
 	
