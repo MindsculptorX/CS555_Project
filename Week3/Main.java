@@ -4,7 +4,7 @@ public class Main {
 	  public static void main(String[] args) {
 		  //read file and print initial two maps
 		  ParseGEDCOMFile.setMap();
-		  ReportingTool.printTable(ParseGEDCOMFile.indiList, ParseGEDCOMFile.famList);
+		  ReportingTool3.printTable(ParseGEDCOMFile.indiList, ParseGEDCOMFile.famList);
 		  
 	  }
 }

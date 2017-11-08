@@ -1,8 +1,9 @@
-
-
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ReportingTool3 {
 
@@ -19,15 +20,31 @@ public class ReportingTool3 {
     	}
     	return true;
     }
+    
+    public static ArrayList<String>[] childrenByAge (Family _family) {
+    		ArrayList<String> childrenList = _family.getChildren();
+    		List<SI034> newChildList = new ArrayList<SI034>(childrenList.size());
+    		
+    		if (childrenList.size() >= 2) {
+    			for (String member: childrenList) {
+        			Individual child = ParseGEDCOMFile.indiList.get(Integer.parseInt(member.substring(1)));
+        			int childAge = child.getAge();
+        			newChildList.add(new SI034(member, childAge));
+        		}
+    			
+    			newChildList.sort(Comparator.comparing(SI034::getAge).reversed());
+    			
+    			List<String> sortedChildren = newChildList.stream()
+    					.map(SI034::getId)
+    					.collect(Collectors.toList());
+    			
+        		System.out.println("FAMILY-ID: " + _family.getId() + ": SI034 " + sortedChildren + " siblings are listed in descending order.");
+        		System.out.println();
+    		}
+		return null;
+    }
 
-
-
-
-
-
-
-
-    public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
+	public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
 		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
 		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
@@ -59,6 +76,8 @@ public class ReportingTool3 {
 			if (!uniqueFamiliesBySpouses(fam)) {
 				System.out.println("Error: FAMILY: SI030 " + fam.getId() + " has error in unique families by spouses.");
 			}
+			
+			childrenByAge(fam);
 		}
 	}
 	
@@ -68,5 +87,8 @@ public class ReportingTool3 {
 
 		}
 	}
+    }
+	
 }
-}
+
+
