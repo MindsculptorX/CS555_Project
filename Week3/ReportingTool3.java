@@ -21,6 +21,31 @@ public class ReportingTool3 {
     	return true;
     }
     
+    public static boolean CorrespondingEntries(Individual indi){
+    	if(!indi.getFamcId().equals("N/A")){
+    	int familyId = Integer.parseInt(indi.getFamcId().substring(1));
+		Family fam = ParseGEDCOMFile.famList.get(familyId);
+		ArrayList<String> children = fam.getChildren();
+		if(!children.contains(indi.getId())){
+			return false;
+		}
+    	}
+    	if(!indi.getFamsId().equals("N/A")){
+    		int familyId = Integer.parseInt(indi.getFamsId().substring(1));
+			Family fam = ParseGEDCOMFile.famList.get(familyId);
+    		if(indi.getGender().equals("M")){
+    			if(!(fam.getHusbandId().equals(indi.getId()) && fam.getHusbandName().equals(indi.getName()))){
+    				return false;
+    			}
+    		}else if(indi.getGender().equals("F")){
+    			if(!(fam.getWifeId().equals(indi.getId()) && fam.getWifeName().equals(indi.getName()))){
+    				return false;
+    			}
+    		}
+    	}
+    	return true;
+    }
+    
     public static ArrayList<String>[] childrenByAge (Family _family) {
     		ArrayList<String> childrenList = _family.getChildren();
     		List<SI034> newChildList = new ArrayList<SI034>(childrenList.size());
@@ -84,6 +109,9 @@ public class ReportingTool3 {
 	for(int i = 0;i< 5000;i++){
 		if(indiList.containsKey(i)){
 			Individual indi = indiList.get(i);
+			if(!CorrespondingEntries(indi)){
+				System.out.println("ERROR: INDIVIDUAL: SI032 "+indi.getId()+" the information in the individual and family records is not consistent");
+			}
 
 		}
 	}
