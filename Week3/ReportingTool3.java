@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,6 +69,120 @@ public class ReportingTool3 {
     		}
 		return null;
     }
+    
+  //↓here is Xi's sprint3 code
+  	public static boolean UniqueFirstNameInFamily(Family fam){//No more than one child with the same name and birth date should appear in a family
+  		HashSet<String> name_birth_Set = new HashSet<String>();
+  		for (int i = 0; i < fam.getChildren().size(); i++) {
+  			Individual child = ReportingTool.getIndiById(fam.getChildren().get(i));
+  			String name_birth = child.getName() + '&' + child.getBirthday();
+  			if(name_birth_Set.contains(name_birth)){return false;}
+  			else{name_birth_Set.add(name_birth);}
+  		}
+  		return true;
+  	}
+  	
+  	public static ArrayList<Individual> ListDeceased(){
+  		ArrayList<Individual> DeadList = new ArrayList<Individual>();
+  		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+  			if(!indi.getDeath().equals("N/A")){
+  				DeadList.add(indi);
+  			}
+  		}
+  		return DeadList;
+  	}
+    
+  //Leo Sprint3
+  	public static boolean MarriageBeforeDeath(Family fam){
+  		String MarriageDate = fam.getMarried();
+  		if(!ReportingTool.getIndiById(fam.getHusbandId()).isAlive()){
+  			String husDeadDate = ReportingTool.getIndiById(fam.getHusbandId()).getDeath();
+  			if(DateComparison.beforeDate(husDeadDate,MarriageDate)){return false;}
+  		}
+  		if(!ReportingTool.getIndiById(fam.getWifeId()).isAlive()){
+  			String WifeDeadDate = ReportingTool.getIndiById(fam.getWifeId()).getDeath();
+  			if(DateComparison.beforeDate(WifeDeadDate,MarriageDate)){return false;}
+  		}
+  		return true;
+  		
+  	}
+  	
+  	public static boolean CorrectGenderForMale(Family fam){
+  		if(!ReportingTool.getIndiById(fam.getHusbandId()).getGender().equals("M")){return false;}
+  		if(!ReportingTool.getIndiById(fam.getWifeId()).getGender().equals("F")){return false;}
+  		return true;
+  	}
+  	
+  	public static HashSet<String> UniqueId(){//return the repeat ID list
+  		HashSet<String> wrongIdList = new HashSet<String>();
+  		HashSet<String> IDSet = new HashSet<String>();
+  		HashSet<String> indiIDSet = new HashSet<String>();
+  		for(Family fam : ParseGEDCOMFile.famList.values()){
+  			String ID = fam.getId();
+  			if(IDSet.contains(ID)){wrongIdList.add(ID);}//Means already have this
+  			else{IDSet.add(ID);}
+  		}
+  		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+  			String ID = indi.getId();
+  			if(IDSet.contains(ID)){wrongIdList.add(ID);}//Means already have this
+  			else{IDSet.add(ID);}
+  		}
+  		
+  		return wrongIdList;
+  	}
+  	
+  	public static ArrayList<String> listRecentBirths(){ //return ID list
+  		ArrayList<String> recentId = new ArrayList<String>();
+  		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+  			int gapD = DateComparison.getDateGap(indi.getBirthday(),DateComparison.getTodayDate());
+  			if(gapD <= 30){recentId.add(indi.getId());}
+  		}
+  		return recentId;
+  	}
+  	
+  	public static ArrayList<String> listRecentDeaths(){ //return ID list
+  		ArrayList<String> recentId = new ArrayList<String>();
+  		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+  			int gapD = DateComparison.getDateGap(indi.getDeath(),DateComparison.getTodayDate());
+  			if(gapD <= 30){recentId.add(indi.getId());}
+  		}
+  		return recentId;
+  	}
+  	
+  	public static ArrayList<String> listRecentSurvivors(){ //return ID list
+  		ArrayList<String> recentId = new ArrayList<String>();
+  		HashSet<String> temp = new HashSet<String>();
+  		
+  		for(String deadRecentId : listRecentDeaths()){
+  			Individual indi = ReportingTool.getIndiById(deadRecentId);
+  			if(ReportingTool.getIndiById(indi.getFamsId()).isAlive()){
+  				temp.add(indi.getFamsId());
+  			}
+  			for(String childId : ReportingTool.getFamById(indi.getFamcId()).getChildren()){
+  				if(ReportingTool.getIndiById(childId).isAlive()){
+  					temp.add(childId);
+  				}
+  			}
+  		}
+  		for(String str : temp){
+  			recentId.add(str);
+  		}
+  		
+//  		for(Family fam : ParseGEDCOMFile.famList.values()){
+//  			if(!ReportingTool.getIndiById(fam.getHusbandId()).isAlive() || !ReportingTool.getIndiById(fam.getWifeId()).isAlive()){		//fm both dead
+//  				recentId.addAll(fam.getChildren());
+//  			}else if(!ReportingTool.getIndiById(fam.getHusbandId()).isAlive()){		//fm both dead
+//  				recentId.addAll(fam.getChildren());
+//  				recentId.add(fam.getWifeId());
+//  			}else if(!ReportingTool.getIndiById(fam.getWifeId()).isAlive()){		//fm both dead
+//  				recentId.addAll(fam.getChildren());
+//  				recentId.add(fam.getHusbandId());
+//  			}
+//  			int gapD = DateComparison.getDateGap(indi.getDeath(),DateComparison.getTodayDate());
+//  			if(gapD <= 30){recentId.add(indi.getId());}
+//  		}
+  		return recentId;
+  	}
 
 	public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");

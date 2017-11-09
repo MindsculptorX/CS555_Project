@@ -13,7 +13,7 @@ public class ParseGEDCOMFile {
 		indiList = new HashMap<Integer,Individual>();
 		famList = new HashMap<Integer,Family>();
 		try {
-			File gedcom = new File ("src/gedcomFile.ged"); //must specify path
+			File gedcom = new File ("gedcomFile.ged"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
 			String readLine = "";
 			int key=0;

@@ -35,10 +35,10 @@ public class XiSprintThreeTest {
 		ParseGEDCOMFile.indiList.put(20002, child2);
 		
 		fam.setChildren(new ArrayList<String>(Arrays.asList("I20001")));
-		assertEquals(true, ReportingTool.UniqueFirstNameInFamily(fam));
+		assertEquals(true, ReportingTool3.UniqueFirstNameInFamily(fam));
 		
 		fam.setChildren(new ArrayList<String>(Arrays.asList("I20001","I20002")));
-		assertEquals(false, ReportingTool.UniqueFirstNameInFamily(fam));
+		assertEquals(false, ReportingTool3.UniqueFirstNameInFamily(fam));
 	}
 
 	
@@ -61,7 +61,7 @@ public class XiSprintThreeTest {
 		ParseGEDCOMFile.indiList.put(20003, indi3);
 		ParseGEDCOMFile.indiList.put(20004, indi4);
 
-		assertEquals(Arrays.asList(indi2,indi4),ReportingTool.ListDeceased());
+		assertEquals(Arrays.asList(indi2,indi4),ReportingTool3.ListDeceased());
 		
 	}
 	
@@ -84,14 +84,14 @@ public class XiSprintThreeTest {
 		
 		HashSet<String> test = new HashSet<String>();
 		ParseGEDCOMFile.indiList.put(20001, indi1);
-		assertEquals(test,ReportingTool.UniqueId());
+		assertEquals(test,ReportingTool3.UniqueId());
 		ParseGEDCOMFile.indiList.put(20002, indi2);
-		assertEquals(test,ReportingTool.UniqueId());
+		assertEquals(test,ReportingTool3.UniqueId());
 		ParseGEDCOMFile.famList.put(20001, fam1);
-		assertEquals(test,ReportingTool.UniqueId());
+		assertEquals(test,ReportingTool3.UniqueId());
 		ParseGEDCOMFile.famList.put(20002, fam2);
 		test.add("I20001");
-		assertEquals(test,ReportingTool.UniqueId());
+		assertEquals(test,ReportingTool3.UniqueId());
 		
 	}
 	
@@ -129,9 +129,9 @@ public class XiSprintThreeTest {
 		fam3.setWifeId("I20002");
 
 
-		assertEquals(true,ReportingTool.CorrectGenderForMale(fam1));
-		assertEquals(false,ReportingTool.CorrectGenderForMale(fam2));
-		assertEquals(false,ReportingTool.CorrectGenderForMale(fam3));
+		assertEquals(true,ReportingTool3.CorrectGenderForMale(fam1));
+		assertEquals(false,ReportingTool3.CorrectGenderForMale(fam2));
+		assertEquals(false,ReportingTool3.CorrectGenderForMale(fam3));
 
 		
 	}
@@ -172,9 +172,9 @@ public class XiSprintThreeTest {
 		fam2.setWifeId("I20003");
 		fam3.setWifeId("I20004");
 		
-		assertEquals(true,ReportingTool.MarriageBeforeDeath(fam1));
-		assertEquals(false,ReportingTool.MarriageBeforeDeath(fam2));
-		assertEquals(true,ReportingTool.MarriageBeforeDeath(fam3));
+		assertEquals(true,ReportingTool3.MarriageBeforeDeath(fam1));
+		assertEquals(false,ReportingTool3.MarriageBeforeDeath(fam2));
+		assertEquals(true,ReportingTool3.MarriageBeforeDeath(fam3));
 	
 		
 	}
@@ -211,7 +211,7 @@ public class XiSprintThreeTest {
 		ParseGEDCOMFile.indiList.put(30003, indi3);
 		ParseGEDCOMFile.indiList.put(30004, indi4);
 
-		System.out.println(ReportingTool.listRecentBirths());
-		System.out.println(ReportingTool.listRecentDeaths());
+		System.out.println(ReportingTool3.listRecentBirths());
+		System.out.println(ReportingTool3.listRecentDeaths());
 	}
 }
