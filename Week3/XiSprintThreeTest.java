@@ -129,9 +129,9 @@ public class XiSprintThreeTest {
 		fam3.setWifeId("I20002");
 
 
-		assertEquals(true,ReportingTool3.CorrectGenderForMale(fam1));
-		assertEquals(false,ReportingTool3.CorrectGenderForMale(fam2));
-		assertEquals(false,ReportingTool3.CorrectGenderForMale(fam3));
+		assertEquals(true,ReportingTool3.CorrectGenderForRole(fam1));
+		assertEquals(false,ReportingTool3.CorrectGenderForRole(fam2));
+		assertEquals(false,ReportingTool3.CorrectGenderForRole(fam3));
 
 		
 	}

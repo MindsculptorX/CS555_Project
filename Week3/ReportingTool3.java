@@ -107,7 +107,7 @@ public class ReportingTool3 {
   		
   	}
   	
-  	public static boolean CorrectGenderForMale(Family fam){
+  	public static boolean CorrectGenderForRole(Family fam){
   		if(!ReportingTool.getIndiById(fam.getHusbandId()).getGender().equals("M")){return false;}
   		if(!ReportingTool.getIndiById(fam.getWifeId()).getGender().equals("F")){return false;}
   		return true;
@@ -218,6 +218,18 @@ public class ReportingTool3 {
 			}
 			
 			childrenByAge(fam);
+			
+			if (!MarriageBeforeDeath(fam)) {
+				System.out.println("Error: FAMILY: SI011 " + fam.getId() + " has an error regarding marriage date and individual's death date.");
+			}
+			
+			if (!CorrectGenderForRole(fam)) {
+				System.out.println("Error: FAMILY: SI027 " + fam.getId() + " has an error regarding the gender roles of the spouses.");
+			}
+			
+			if (!UniqueFirstNameInFamily(fam)) {
+				System.out.println("Error: FAMILY: SI031 " + fam.getId() + " has an error regarding same name and date of birth.");
+			}
 		}
 	}
 	
@@ -230,6 +242,15 @@ public class ReportingTool3 {
 
 		}
 	}
+	
+	//possible print the items that do not take in values (fam or indi)
+//	System.out.println(UniqueId());
+//	System.out.println(listRecentBirths());
+////	listRecentDeaths();
+////	listRecentSurvivors();
+//	System.out.println("repeat" + ListDeceased());
+	
+	
     }
 	
 }
