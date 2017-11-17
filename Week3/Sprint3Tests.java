@@ -70,7 +70,7 @@ public class Sprint3Tests {
 		fam2.setHusbandName("Mike A");
 		fam2.setWifeName("Lily A");
 		ParseGEDCOMFile.famList.put(50002, fam2);
-		assertEquals(false, ReportingTool.uniqueFamiliesBySpouses(fam2));
+		assertEquals(false, ReportingTool3.uniqueFamiliesBySpouses(fam2));
 		ParseGEDCOMFile.famList.remove(50002, fam2);
 		
 		Family fam3 = new Family();
@@ -79,7 +79,7 @@ public class Sprint3Tests {
 		fam3.setHusbandName("Mike B");
 		fam3.setWifeName("Lily A");
 		ParseGEDCOMFile.famList.put(50003, fam3);
-		assertEquals(false, ReportingTool.uniqueFamiliesBySpouses(fam3));
+		assertEquals(false, ReportingTool3.uniqueFamiliesBySpouses(fam3));
 		ParseGEDCOMFile.famList.remove(50003, fam3);
 		
 		Family fam4 = new Family();
@@ -88,7 +88,7 @@ public class Sprint3Tests {
 		fam4.setHusbandName("Mike A");
 		fam4.setWifeName("Lily B");
 		ParseGEDCOMFile.famList.put(50004, fam4);
-		assertEquals(false, ReportingTool.uniqueFamiliesBySpouses(fam4));
+		assertEquals(false, ReportingTool3.uniqueFamiliesBySpouses(fam4));
 		ParseGEDCOMFile.famList.remove(50004, fam4);
 		
 		Family fam5 = new Family();
@@ -97,7 +97,7 @@ public class Sprint3Tests {
 		fam5.setHusbandName("Mike B");
 		fam5.setWifeName("Lily B");
 		ParseGEDCOMFile.famList.put(50005, fam5);
-		assertEquals(true, ReportingTool.uniqueFamiliesBySpouses(fam5));
+		assertEquals(true, ReportingTool3.uniqueFamiliesBySpouses(fam5));
 		ParseGEDCOMFile.famList.remove(50005, fam5);
 		
 		//different marriage date
@@ -107,7 +107,7 @@ public class Sprint3Tests {
 		fam6.setHusbandName("Mike A");
 		fam6.setWifeName("Lily A");
 		ParseGEDCOMFile.famList.put(50006, fam6);
-		assertEquals(true, ReportingTool.uniqueFamiliesBySpouses(fam6));
+		assertEquals(true, ReportingTool3.uniqueFamiliesBySpouses(fam6));
 		ParseGEDCOMFile.famList.remove(50006, fam6);
 		
 		Family fam7 = new Family();
@@ -116,7 +116,7 @@ public class Sprint3Tests {
 		fam7.setHusbandName("Mike B");
 		fam7.setWifeName("Lily A");
 		ParseGEDCOMFile.famList.put(50007, fam7);
-		assertEquals(true, ReportingTool.uniqueFamiliesBySpouses(fam7));
+		assertEquals(true, ReportingTool3.uniqueFamiliesBySpouses(fam7));
 		ParseGEDCOMFile.famList.remove(50007, fam7);
 		
 		Family fam8 = new Family();
@@ -125,7 +125,7 @@ public class Sprint3Tests {
 		fam8.setHusbandName("Mike A");
 		fam8.setWifeName("Lily B");
 		ParseGEDCOMFile.famList.put(50008, fam8);
-		assertEquals(true, ReportingTool.uniqueFamiliesBySpouses(fam8));
+		assertEquals(true, ReportingTool3.uniqueFamiliesBySpouses(fam8));
 		ParseGEDCOMFile.famList.remove(50008, fam8);
 		
 		Family fam9 = new Family();
@@ -134,6 +134,6 @@ public class Sprint3Tests {
 		fam9.setHusbandName("Mike B");
 		fam9.setWifeName("Lily B");
 		ParseGEDCOMFile.famList.put(50009, fam9);
-		assertEquals(true, ReportingTool.uniqueFamiliesBySpouses(fam9));	
+		assertEquals(true, ReportingTool3.uniqueFamiliesBySpouses(fam9));	
 	}
 }

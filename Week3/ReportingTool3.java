@@ -14,22 +14,30 @@ public class ReportingTool3 {
     	for (Integer key : famList.keySet()) {
     		Family curFam = famList.get(key);
     		if (!curFam.getId().equals(fam.getId())) {
-    			if (curFam.getMarried().equals(fam.getMarried()) && (curFam.getHusbandName().equals(fam.getHusbandName()) || curFam.getWifeName().equals(fam.getWifeName()))) {
-    				return false;
+    			try {
+    				if (curFam.getMarried().equals(fam.getMarried()) && (curFam.getHusbandName().equals(fam.getHusbandName()) || curFam.getWifeName().equals(fam.getWifeName()))) {
+    					return false; }
+    			} catch (Exception e) {
+    				
+    			}
     			}
     		}
-    	}
     	return true;
     }
+    
     public static boolean uniqueFamiliesBySpousesId(Family fam) {
     	//false means not unique
     	HashMap<Integer,Family> famList = ParseGEDCOMFile.famList;
     	for (Integer key : famList.keySet()) {
     		Family curFam = famList.get(key);
-    		if (!curFam.getId().equals(fam.getId())) {
-    			if (curFam.getMarried().equals(fam.getMarried()) && (curFam.getHusbandId().equals(fam.getHusbandId()) || curFam.getWifeId().equals(fam.getWifeId()))) {
-    				return false;
-    			}
+    		try {
+    			if (!curFam.getId().equals(fam.getId())) {
+        			if (curFam.getMarried().equals(fam.getMarried()) && (curFam.getHusbandId().equals(fam.getHusbandId()) || curFam.getWifeId().equals(fam.getWifeId()))) {
+        				return false;
+        			}
+        		}
+    		} catch (Exception e) {
+    			
     		}
     	}
     	return true;
@@ -212,26 +220,26 @@ public class ReportingTool3 {
 	for(int i = 0;i< 1000;i++){
 		if(famList.containsKey(i)){
 			Family fam = famList.get(i);
-//			if (!uniqueFamiliesBySpouses(fam)) {
-//				System.out.println("Error: FAMILY: SI030 " + fam.getId() + " has error in unique families by spouses.");
-//			}
+			if (!uniqueFamiliesBySpouses(fam)) {
+				System.out.println("ERROR: FAMILY: SI030 " + fam.getId() + " has error in unique families by spouses.");
+			}
 			
 			childrenByAge(fam);
 			
 			if (!MarriageBeforeDeath(fam)) {
-				System.out.println("Error: FAMILY: SI011 " + fam.getId() + " has an error regarding marriage date and individual's death date.");
+				System.out.println("ERROR: FAMILY: SI011 " + fam.getId() + " has an error regarding marriage date and individual's death date.");
 			}
 			
 			if (!CorrectGenderForRole(fam)) {
-				System.out.println("Error: FAMILY: SI027 " + fam.getId() + " has an error regarding the gender roles of the spouses.");
+				System.out.println("ERROR: FAMILY: SI027 " + fam.getId() + " has an error regarding the gender roles of the spouses.");
 			}
 			
 			if (!UniqueFirstNameInFamily(fam)) {
-				System.out.println("Error: FAMILY: SI031 " + fam.getId() + " has an error regarding same name and date of birth.");
+				System.out.println("ERROR: FAMILY: SI031 " + fam.getId() + " has an error regarding same name and date of birth.");
 			}
 			
 			if(ParseGEDCOMFile.repeatId.contains(fam.getId())){
-				System.out.println("Error: FAMILY: SI028 " + fam.getId() + " does not have a unique ID, it was repeated.");
+				System.out.println("ERROR: FAMILY: SI028 " + fam.getId() + " does not have a unique ID, it was repeated.");
 			}
 		}
 	}
@@ -244,15 +252,15 @@ public class ReportingTool3 {
 			}
 			
 			if(!listRecentSurvivors(indi).isEmpty()) {
-				System.out.println("Survivors of " + indi.getId() + " " + listRecentSurvivors(indi));
+				System.out.println("INDIVIDUAL SI037 - List Recent Survivors of " + indi.getId() + " " + listRecentSurvivors(indi));
 			}
 			if(ParseGEDCOMFile.repeatId.contains(indi.getId())){
-				System.out.println("Error: INDIVIDUAL: SI028 " +indi.getId() + " does not have a unique ID, it was repeated.");
+				System.out.println("ERROR: INDIVIDUAL: SI028 " +indi.getId() + " does not have a unique ID, it was repeated.");
 			}
 
 		}
 	}
-	System.out.println("Births" + listRecentBirths());
+	System.out.println("INDIVIDUAL SI035 - List Recent Births" + listRecentBirths());
 	System.out.println("INDIVIDUAL SI036 - List Recent Deaths: " + ListDeceased());
 	
     }
