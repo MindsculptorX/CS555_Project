@@ -21,6 +21,19 @@ public class ReportingTool3 {
     	}
     	return true;
     }
+    public static boolean uniqueFamiliesBySpousesId(Family fam) {
+    	//false means not unique
+    	HashMap<Integer,Family> famList = ParseGEDCOMFile.famList;
+    	for (Integer key : famList.keySet()) {
+    		Family curFam = famList.get(key);
+    		if (!curFam.getId().equals(fam.getId())) {
+    			if (curFam.getMarried().equals(fam.getMarried()) && (curFam.getHusbandId().equals(fam.getHusbandId()) || curFam.getWifeId().equals(fam.getWifeId()))) {
+    				return false;
+    			}
+    		}
+    	}
+    	return true;
+    }
     
     public static boolean CorrespondingEntries(Individual indi){
     	if(!indi.getFamcId().equals("N/A")){
