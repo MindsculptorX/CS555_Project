@@ -8,10 +8,14 @@ import java.util.HashMap;
 public class ParseGEDCOMFile {
 	public static HashMap<Integer,Individual> indiList;
 	public static HashMap<Integer,Family> famList;
+	public static ArrayList<String> uniqueId;
+	public static ArrayList<String> repeatId;
 
 	public static void setMap () {
 		indiList = new HashMap<Integer,Individual>();
 		famList = new HashMap<Integer,Family>();
+		uniqueId = new ArrayList<String>();
+		repeatId = new ArrayList<String>();
 		try {
 			File gedcom = new File ("ErrorTest.ged"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
@@ -31,6 +35,11 @@ public class ParseGEDCOMFile {
 						key = Integer.parseInt(id.replaceAll("I", ""));
 						indi.setId(id);
 						indiList.put(key, indi);
+						if(!uniqueId.contains(id)){
+							uniqueId.add(id);
+						}else {
+							repeatId.add(id);
+						}
 
 				}else if(splitParts[2].equals("FAM")){
 						Family fam = new Family();
@@ -38,7 +47,11 @@ public class ParseGEDCOMFile {
 						key = Integer.parseInt(id.replaceAll("F", ""));
 						fam.setId(id);
 						famList.put(key, fam);
-
+						if(!uniqueId.contains(id)){
+							uniqueId.add(id);
+						}else {
+							repeatId.add(id);
+						}
 			}else{
 			}
 			}
@@ -152,7 +165,7 @@ public class ParseGEDCOMFile {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-		//Get the age for each Indi:
+//		//Get the age for each Indi:
 		for(int i = 0;i< 5000;i++){
 			if(indiList.containsKey(i)){
 				Individual indi = indiList.get(i);
