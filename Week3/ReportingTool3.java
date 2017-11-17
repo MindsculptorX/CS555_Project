@@ -193,16 +193,16 @@ public class ReportingTool3 {
 
 	public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
-		System.out.println("  ID          Name         Gender    Birthday    Age   Alive     Death       Child     Spouse ");
-		System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========");
+		System.out.println("  ID           Name           Gender    Birthday    Age   Alive     Death       Child    Spouse ");
+		System.out.println("====== ===================== ======== ============ ===== ======= ============ ========= =========");
 		for(int i = 0;i< 5000;i++){
 			if(indiList.containsKey(i)){
 			Individual indi = indiList.get(i);
-			System.out.printf("  %-4s   %-16s    %-5s  %-11s  %-4s  %-6s  %-11s    %-6s    %-6s\n",
+			System.out.printf("  %-5s   %-18s    %-5s  %-11s  %-4s  %-6s  %-11s    %-6s    %-6s\n",
 					indi.getId(), indi.getName(), indi.getGender(), indi.getBirthday(),indi.getAge(), indi.getDeath() == "N/A" ? "True" : "False", indi.getDeath() == "N/A" ? "   N/A     " : indi.getDeath(), indi.getFamcId(), indi.getFamsId());
 		}
 	}
-	System.out.println("====== ================== ======== ============ ===== ======= ============ ========= =========\n");
+	System.out.println("====== ===================== ======== ============ ===== ======= ============ ========= =========\n");
 
 	System.out.println("Families");
 	System.out.println("  ID     Married      Divorced    Husband ID     Husband Name     Wife ID      Wife Name          Children    ");
