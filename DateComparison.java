@@ -46,6 +46,7 @@ public class DateComparison {
 		}
 
 	}
+	
 	public static long differentValueDate(String _date1,String _date2){
 		Date date1 = parse(_date1, formatDate);
 		Date date2 = parse(_date2, formatDate);
@@ -54,6 +55,7 @@ public class DateComparison {
 		return day;
 		
 	}
+	
 	public static Date parse (String _date, DateFormat...formatters) {
 		Date date = null;
 		for (DateFormat formatter: formatters) {
@@ -65,6 +67,18 @@ public class DateComparison {
 		}
 
 		return date;
+	}
+	
+	static Date thirtyDaysAgo() {
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.add(Calendar.DAY_OF_MONTH, -30);
+		Date past = calendar2.getTime();
+		return past;
+	}
+	
+	static boolean isWithinRange(String date) {
+		Date toCheck = parse(date, formatDate);
+		return (toCheck.before(today) && toCheck.after(thirtyDaysAgo()));
 	}
 	
 	public static int getYearFromDataStr(String date){
@@ -80,6 +94,7 @@ public class DateComparison {
 	public static String getTodayDate(){
 		return "2017-11-04";
 	}
+	
 	public static int getDateGap(String date1,String date2){
 		//1990-01-01  -->1990-01-10  //return 9
 		int ans = 0;

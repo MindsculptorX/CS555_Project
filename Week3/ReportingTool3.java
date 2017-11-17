@@ -65,7 +65,6 @@ public class ReportingTool3 {
     					.collect(Collectors.toList());
     			
         		System.out.println("FAMILY-ID: " + _family.getId() + ": SI034 " + sortedChildren + " siblings are listed in descending order.");
-        		System.out.println();
     		}
 		return null;
     }
@@ -82,11 +81,11 @@ public class ReportingTool3 {
   		return true;
   	}
   	
-  	public static ArrayList<Individual> ListDeceased(){
-  		ArrayList<Individual> DeadList = new ArrayList<Individual>();
+  	public static ArrayList<String> ListDeceased(){
+  		ArrayList<String> DeadList = new ArrayList<String>();
   		for(Individual indi : ParseGEDCOMFile.indiList.values()){
   			if(!indi.getDeath().equals("N/A")){
-  				DeadList.add(indi);
+  				DeadList.add(indi.getId());
   			}
   		}
   		return DeadList;
@@ -213,15 +212,15 @@ public class ReportingTool3 {
 	for(int i = 0;i< 1000;i++){
 		if(famList.containsKey(i)){
 			Family fam = famList.get(i);
-			if (!uniqueFamiliesBySpouses(fam)) {
-				System.out.println("Error: FAMILY: SI030 " + fam.getId() + " has error in unique families by spouses.");
-			}
+//			if (!uniqueFamiliesBySpouses(fam)) {
+//				System.out.println("Error: FAMILY: SI030 " + fam.getId() + " has error in unique families by spouses.");
+//			}
 			
 			childrenByAge(fam);
 			
-			if (!MarriageBeforeDeath(fam)) {
-				System.out.println("Error: FAMILY: SI011 " + fam.getId() + " has an error regarding marriage date and individual's death date.");
-			}
+//			if (!MarriageBeforeDeath(fam)) {
+//				System.out.println("Error: FAMILY: SI011 " + fam.getId() + " has an error regarding marriage date and individual's death date.");
+//			}
 			
 			if (!CorrectGenderForRole(fam)) {
 				System.out.println("Error: FAMILY: SI027 " + fam.getId() + " has an error regarding the gender roles of the spouses.");

@@ -7,4 +7,6 @@ public class Main {
 		  ReportingTool3.printTable(ParseGEDCOMFile.indiList, ParseGEDCOMFile.famList);
 		  
 	  }
+	  
+	  
 }
