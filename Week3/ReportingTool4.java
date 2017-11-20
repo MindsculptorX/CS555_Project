@@ -39,4 +39,34 @@ public class ReportingTool4 {
 		}
 		return answer;
 	}
+	
+	//↓Leo code
+	
+	public static ArrayList<String> listUpcomingAnniversaries(){
+		ArrayList<String> answer = new ArrayList<String>();
+		for(Family fam : ParseGEDCOMFile.famList.values()){
+			String Today = DateComparison.getTodayDate();
+			String nextAnn = Today.substring(0, 4) + fam.getMarried().substring(4);
+			System.out.println(nextAnn);
+			int gapD = DateComparison.getDateGap(Today,nextAnn);
+			if(gapD>=0 && gapD <= 30){answer.add(fam.getId());}
+			System.out.println(Today);
+		}
+		return answer;
+	}
+	
+	public static ArrayList<String> listUpcomingBirthdays(){
+		ArrayList<String> answer = new ArrayList<String>();
+		for(Individual indi : ParseGEDCOMFile.indiList.values()){
+			String Today = DateComparison.getTodayDate();
+			String nextBir = Today.substring(0, 4) + indi.getBirthday().substring(4);
+			int gapD = DateComparison.getDateGap(Today,nextBir);
+			if(gapD>=0 && gapD <= 30){answer.add(indi.getId());}
+		}
+		return answer;
+	}
+	
+	
+	
+	
 }
