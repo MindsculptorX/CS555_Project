@@ -27,4 +27,16 @@ public class ReportingTool4 {
 		}
 		return answer;
 	}
+	public static ArrayList<String> listLargeAgeDiff(){
+		ArrayList<String> answer = new ArrayList<String>();
+		for(Family fam : ParseGEDCOMFile.famList.values()){
+			int husAge = ReportingTool.getIndiById(fam.getHusbandId()).getAge();
+			int wifeAge = ReportingTool.getIndiById(fam.getWifeId()).getAge();
+			if(wifeAge > 2*husAge || wifeAge*2 < husAge){
+				answer.add(fam.getHusbandId());
+				answer.add(fam.getWifeId());
+			}
+		}
+		return answer;
+	}
 }

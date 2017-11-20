@@ -7,7 +7,13 @@ public class XiSprintFourTest {
 	@Test
 	public void testlistMultipleBirths() {
 		ParseGEDCOMFile.setMap();
-		ReportingTool4.listMultipleBirths();
+		System.out.println(ReportingTool4.listMultipleBirths());
+	}
+	
+	@Test
+	public void testlistLargeAgeDiff() {
+		ParseGEDCOMFile.setMap();
+		System.out.println(ReportingTool4.listLargeAgeDiff());
 	}
 
 }
