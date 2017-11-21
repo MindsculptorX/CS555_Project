@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class ReportingTool4 {
 	//↓Xi's Sprint 4 code
@@ -83,6 +85,79 @@ public class ReportingTool4 {
 		return marriedLiving;
 	}
 	
+	public static boolean firstCousinsNotMarried(Individual _individual) {
+		String spouse = "";
+		HashSet<String> cousins = new HashSet<String>();
+		if(!_individual.getFamcId().equalsIgnoreCase("N/A")) {
+			Family childOfFamily = ReportingTool.getFamById(_individual.getFamcId());
+			Individual mom = ReportingTool.getIndiById(childOfFamily.getWifeId());
+			Individual dad = ReportingTool.getIndiById(childOfFamily.getHusbandId());
+			HashSet<String> auntsAndUncles = getSiblings(mom);
+			auntsAndUncles.addAll(getSiblings(dad));
+			cousins = getAllCousins(auntsAndUncles);
+		}
+		spouse = getSpouse(_individual);
+		
+		if(cousins.contains(spouse)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public static boolean auntsAndUncles(Individual _individual) {
+		String spouse = "";
+		HashSet<String> auntsAndUncles = new HashSet<String>();
+		if(!_individual.getFamcId().equalsIgnoreCase("N/A")) {
+			Family childOfFamily = ReportingTool.getFamById(_individual.getFamcId());
+			Individual mom = ReportingTool.getIndiById(childOfFamily.getWifeId());
+			Individual dad = ReportingTool.getIndiById(childOfFamily.getHusbandId());
+			auntsAndUncles = getSiblings(mom);
+			auntsAndUncles.addAll(getSiblings(dad));
+		}
+		spouse = getSpouse(_individual);
+		
+		if(auntsAndUncles.contains(spouse)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public static String getSpouse(Individual _individual) {
+		String spouse = "";
+		if(!_individual.getFamsId().equalsIgnoreCase("N/A")) {
+			if(_individual.getGender().equalsIgnoreCase("F")) {
+				spouse = ReportingTool.getFamById(_individual.getFamsId()).getHusbandId();
+			} else if(_individual.getGender().equalsIgnoreCase("M")) {
+				spouse = ReportingTool.getFamById(_individual.getFamsId()).getWifeId();
+			}
+		}
+		return spouse;
+	}
+
+	public static HashSet<String> getSiblings(Individual _individual) {
+		HashSet<String> siblings = new HashSet<String>();
+		if(!_individual.getFamcId().equalsIgnoreCase("N/A")) {
+			Family childOf = ReportingTool.getFamById(_individual.getFamcId());
+			siblings.addAll(childOf .getChildren());
+			siblings.remove(_individual.getId());
+		}
+		return siblings;
+	}
+
+	public static HashSet<String> getAllCousins(HashSet<String> generationOfSiblings) {
+		HashSet<String> cousins = new HashSet<String>();
+		for(String sibling : generationOfSiblings) {
+			if(!ReportingTool.getIndiById(sibling).getFamsId().equalsIgnoreCase("N/A")) {
+				Family marriedFamily = ReportingTool.getFamById(ReportingTool.getIndiById(sibling).getFamsId());
+				ArrayList<String> children = marriedFamily.getChildren();
+				cousins.addAll(children);
+			}
+		}
+		return cousins;
+	}
+
 	
 	public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
@@ -121,6 +196,13 @@ public class ReportingTool4 {
 		if(indiList.containsKey(i)){
 			Individual indi = indiList.get(i);
 			
+			if(!firstCousinsNotMarried(indi)) {
+				System.out.println("INDIVIDUAL ERROR - SI025: " + indi.getId() + " is married to a first cousin " + getSpouse(indi));
+			}
+			
+			if(!auntsAndUncles(indi)) {
+				System.out.println("INDIVIDUAL ERROR - SI026: " + indi.getId() + " is married to an aunt or uncle " + getSpouse(indi));
+			}
 
 		}
 	}
