@@ -4,6 +4,38 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class ReportingTool4 {
+	//ZHIQI XIONG
+	public static ArrayList<String> listLivingSingle() {
+		ArrayList<String> livingSingle = new ArrayList<String>();
+		HashMap<Integer, Individual> indiList = ParseGEDCOMFile.indiList;
+		for (Integer key : indiList.keySet()) {
+			Individual indi = indiList.get(key);
+			if (indi.getAge() <= 30) {
+				continue;
+			}
+			if (indi.getFamsId().equals("N/A")) {
+				livingSingle.add(indi.getId());
+			}
+		}
+		return livingSingle;
+	}
+	
+	public static ArrayList<String> listOrphans() {
+		ArrayList<String> Orphans = new ArrayList<String>();
+		HashMap<Integer, Family> famList = ParseGEDCOMFile.famList;
+		for (Integer key : famList.keySet()) {
+			Family fam = famList.get(key);
+			Individual father = ReportingTool.getIndiById(fam.getHusbandId());
+			Individual mother = ReportingTool.getIndiById(fam.getWifeId());
+			if (father.isAlive() || mother.isAlive()) {
+				continue;
+			}
+			Orphans.addAll(fam.getChildren());
+		}
+		return Orphans;
+	}
+	
+	
 	//↓Xi's Sprint 4 code
 	public static ArrayList<String> listMultipleBirths(){
 		ArrayList<String> answer = new ArrayList<String>();
@@ -207,5 +239,7 @@ public class ReportingTool4 {
 		}
 	}
 	System.out.println("INDIVIDUAL SI036 - List Individuals Living & Married: " + livingMarried());
+	System.out.println("INDIVIDUAL SI037 - List Individuals Living & Single: " + listLivingSingle());
+	System.out.println("INDIVIDUAL SI039 - List Individuals Orphans: " + listOrphans());
     }
 }
