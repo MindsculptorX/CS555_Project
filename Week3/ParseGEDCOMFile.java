@@ -11,7 +11,7 @@ public class ParseGEDCOMFile {
 	public static ArrayList<String> uniqueId;
 	public static ArrayList<String> repeatId;
 
-	public static void setMap () {
+	public static void setMap() {
 		indiList = new HashMap<Integer,Individual>();
 		famList = new HashMap<Integer,Family>();
 		uniqueId = new ArrayList<String>();
@@ -74,7 +74,7 @@ public class ParseGEDCOMFile {
 						level = Integer.parseInt(splitParts[0]);
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
-							argument = splitParts[2];
+							argument = ReportingTool4.partialDate(splitParts[2]);
 							int year = Integer.parseInt(argument.split(" ")[2]);
 							indi.setAge(2017 - year);
 							indi.setBirthday(argument);
@@ -89,7 +89,7 @@ public class ParseGEDCOMFile {
 						level = Integer.parseInt(splitParts[0]);
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
-							argument = splitParts[2];
+							argument = ReportingTool4.partialDate(splitParts[2]);
 							int year = Integer.parseInt(argument.split(" ")[2]);
 							indi.setAge(year - 2017 + indi.getAge());
 							indi.setDeath(argument);
@@ -114,7 +114,7 @@ public class ParseGEDCOMFile {
 						level = Integer.parseInt(splitParts[0]);
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
-							argument = splitParts[2];
+							argument = ReportingTool4.partialDate(splitParts[2]);
 							fam.setMarried(argument);
 							famList.put(key, fam);
 						}
@@ -151,7 +151,7 @@ public class ParseGEDCOMFile {
 						level = Integer.parseInt(splitParts[0]);
 						tag = splitParts[1];
 						if(level == 2 && tag.equals("DATE")){
-							argument = splitParts[2];
+							argument = ReportingTool4.partialDate(splitParts[2]);
 							fam.setDivorced(argument);
 							famList.put(key, fam);
 						}else{

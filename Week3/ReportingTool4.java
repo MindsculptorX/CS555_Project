@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ReportingTool4 {
@@ -37,7 +38,7 @@ public class ReportingTool4 {
 	
 	
 	//↓Xi's Sprint 4 code
-	public static ArrayList<String> listMultipleBirths(){
+	/*public static ArrayList<String> listMultipleBirths(){
 		ArrayList<String> answer = new ArrayList<String>();
 		HashMap<String,ArrayList<String>> mp = new HashMap<String,ArrayList<String>>();
 		for(Family fam : ParseGEDCOMFile.famList.values()){
@@ -61,6 +62,7 @@ public class ReportingTool4 {
 		}
 		return answer;
 	}
+	*/
 	public static ArrayList<String> listLargeAgeDiff(){
 		ArrayList<String> answer = new ArrayList<String>();
 		for(Family fam : ParseGEDCOMFile.famList.values()){
@@ -190,7 +192,49 @@ public class ReportingTool4 {
 		return cousins;
 	}
 
-	
+	public static boolean noBigamy(Family fam){
+		HashMap<Integer,Family> famlist = ParseGEDCOMFile.famList;
+		Iterator<Map.Entry<Integer, Family>> entries = famlist.entrySet().iterator();
+		while(entries.hasNext()){
+			Map.Entry<Integer, Family> entry = entries.next();
+			Family family = entry.getValue();
+			if(!family.getId().equals(fam.getId())){
+				if(family.getHusbandId().equals(fam.getHusbandId()) || family.getWifeId().equals(fam.getWifeId())){
+					if(family.getDivorced().equals("N/A") && fam.getDivorced().equals("N/A")){
+						return false;
+					}else{
+						if(!family.getDivorced().equals("N/A") && !fam.getDivorced().equals("N/A")){
+							if(DateComparison.beforeDate(fam.getMarried(), family.getDivorced()) 
+									&& DateComparison.beforeDate(family.getMarried(), fam.getDivorced())){
+								return false;
+							}
+						
+						}else 
+						if(!family.getDivorced().equals("N/A") && fam.getDivorced().equals("N/A")){
+							if(DateComparison.beforeDate(fam.getMarried(), family.getDivorced())){
+								return false;
+							}
+						}else if(!fam.getDivorced().equals("N.A") && family.getDivorced().equals("N/A")){
+							if(DateComparison.beforeDate(family.getMarried(),fam.getDivorced())){
+								return false;
+							}
+						}
+					}
+					}
+			}
+		}
+		return true;
+	}
+	public static String partialDate(String date){
+		String[] split = date.split(" ");
+		if(split.length == 3){
+		}else if(split.length == 2){
+			date = "01 "+date;
+		}else if(split.length == 1){
+			date = "01 JAN "+date;
+		}
+		return date;
+	}
 	public static void printTable(Map<Integer, Individual> indiList, Map<Integer, Family> famList) {
 		System.out.println("Individuals");
 		System.out.println("  ID           Name           Gender    Birthday    Age   Alive     Death       Child    Spouse ");
@@ -220,6 +264,9 @@ public class ReportingTool4 {
 	for(int i = 0;i< 1000;i++){
 		if(famList.containsKey(i)){
 			Family fam = famList.get(i);
+			if(!noBigamy(fam)){
+				System.out.println("FAMILY ERROR -SI017 " + fam.getId()+" has bigamy");
+			}
 			
 		}
 	}
