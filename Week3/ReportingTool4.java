@@ -38,7 +38,7 @@ public class ReportingTool4 {
 	
 	
 	//↓Xi's Sprint 4 code
-	/*public static ArrayList<String> listMultipleBirths(){
+	public static ArrayList<String> listMultipleBirths(){
 		ArrayList<String> answer = new ArrayList<String>();
 		HashMap<String,ArrayList<String>> mp = new HashMap<String,ArrayList<String>>();
 		for(Family fam : ParseGEDCOMFile.famList.values()){
@@ -62,7 +62,6 @@ public class ReportingTool4 {
 		}
 		return answer;
 	}
-	*/
 	public static ArrayList<String> listLargeAgeDiff(){
 		ArrayList<String> answer = new ArrayList<String>();
 		for(Family fam : ParseGEDCOMFile.famList.values()){
@@ -83,10 +82,10 @@ public class ReportingTool4 {
 		for(Family fam : ParseGEDCOMFile.famList.values()){
 			String Today = DateComparison.getTodayDate();
 			String nextAnn = Today.substring(0, 4) + fam.getMarried().substring(4);
-			System.out.println(nextAnn);
+//			System.out.println(nextAnn);
 			int gapD = DateComparison.getDateGap(Today,nextAnn);
 			if(gapD>=0 && gapD <= 30){answer.add(fam.getId());}
-			System.out.println(Today);
+//			System.out.println(Today);
 		}
 		return answer;
 	}
@@ -288,5 +287,10 @@ public class ReportingTool4 {
 	System.out.println("INDIVIDUAL SI036 - List Individuals Living & Married: " + livingMarried());
 	System.out.println("INDIVIDUAL SI037 - List Individuals Living & Single: " + listLivingSingle());
 	System.out.println("INDIVIDUAL SI039 - List Individuals Orphans: " + listOrphans());
+	System.out.println("INDIVIDUAL SI038 - List multiple births: " + listMultipleBirths());
+	System.out.println("INDIVIDUAL SI040 - List large age differences: " + listLargeAgeDiff());
+	System.out.println("INDIVIDUAL SI044 - List upcoming birthdays : " + listUpcomingBirthdays());
+	System.out.println("INDIVIDUAL SI045 - List upcoming anniversaries : " + listUpcomingAnniversaries());
+
     }
 }

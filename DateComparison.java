@@ -92,7 +92,7 @@ public class DateComparison {
 	}
 	
 	public static String getTodayDate(){
-		return "2017-11-04";
+		return "2017-12-09";
 	}
 	
 	public static int getDateGap(String date1,String date2){
