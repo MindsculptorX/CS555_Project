@@ -17,7 +17,7 @@ public class ParseGEDCOMFile {
 		uniqueId = new ArrayList<String>();
 		repeatId = new ArrayList<String>();
 		try {
-			File gedcom = new File ("ErrorTest.ged"); //must specify path
+			File gedcom = new File ("gedcomFile.ged"); //must specify path
 			BufferedReader reader = new BufferedReader(new FileReader(gedcom));
 			String readLine = "";
 			int key=0;
